@@ -1,0 +1,40 @@
+{
+  "author": "ボイストレーナーみか",
+  "author_page": "https://store.line.me/stickershop/author/301799/ja",
+  "categories": [
+    {"name": "🎵 声と音のなかまたち", "note": "ボイストレーナーが作った、声まわりのキャラたち", "items": [
+      {"title": "声タイプどうぶつのゆる返事", "id": 36060001},
+      {"title": "のど飴ズのいたわり返事", "id": 36060072},
+      {"title": "メトロノームのカチカチ返事", "id": 36060076},
+      {"title": "のびのびヘビの言いよどみ", "id": 36061265}
+    ]},
+    {"name": "🐈 ねこシリーズ", "items": [
+      {"title": "動くさびねこのおねだり", "id": 36141716, "new": true, "animated": true},
+      {"title": "毎日使えるさびねこの返事", "id": 36125051},
+      {"title": "さびねこの毎日使える敬語", "id": 36125061},
+      {"title": "おせっかいねこの気づかい返事", "id": 36125067},
+      {"title": "毎日使える口が悪いねこ", "id": 36125038},
+      {"title": "ポンコツねこのやらかし返信", "id": 36125028},
+      {"title": "さみしがりねこの毎日返事", "id": 36125017},
+      {"title": "根に持つねこの毎日", "id": 36125007},
+      {"title": "無表情ねこの今どき語", "id": 36061287}
+    ]},
+    {"name": "🗾 方言・ご当地", "items": [
+      {"title": "京都どすこい", "id": 36061279},
+      {"title": "毎日使える名古屋弁えびフライ", "id": 36124988},
+      {"title": "広島弁もみじ饅頭の返事", "id": 36125014},
+      {"title": "浜言葉カモメのじゃん返事", "id": 36125001}
+    ]},
+    {"name": "💬 ことば・英語", "items": [
+      {"title": "今どきの返事、英語つき", "id": 36061002},
+      {"title": "無表情トースターの英語返し", "id": 36061295},
+      {"title": "マンガでしか言わない言葉", "id": 36061297}
+    ]},
+    {"name": "🦦 カワウソ", "items": [
+      {"title": "ウソつくカワウソ", "id": 36061282},
+      {"title": "まいにちカワウソ（着せかえ）", "theme_url": "https://store.line.me/themeshop/product/31313692-dac1-4108-80be-46a93627374f/ja", "img": "https://shop.line-scdn.net/themeshop/v1/products/31/31/36/31313692-dac1-4108-80be-46a93627374f/1/WEBSTORE/icon_198x278.png", "kisekae": true}
+    ]}
+  ],
+  "url_pattern": "https://store.line.me/stickershop/product/<id>/ja",
+  "img_pattern": "https://stickershop.line-scdn.net/stickershop/v1/product/<id>/LINEStorePC/main.png"
+}
