@@ -7,6 +7,11 @@
 使い方:
     python3 build.py          # index.html を書き出す
     python3 build.py --check  # 書き出さず、いまの index.html とズレていないか見るだけ
+
+⚠️ 書かないもの（2026-08-31 みかさん）:
+   ・「AIと一緒に作りました」系（AIを嫌がる人がいるので、わざわざ書かない）
+   ・「大人気」「バズった」等の事実でない言葉
+   ・コピーライトの年（© Experisent だけ）
 """
 
 from __future__ import annotations
@@ -22,33 +27,81 @@ DATA = ROOT / "stamps-data.json"
 OUT = ROOT / "index.html"
 
 STYLE = """*{margin:0;padding:0;box-sizing:border-box}
-body{background:#F7F1E6;color:#22314F;font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN",sans-serif;line-height:1.6}
-.wrap{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
-header{text-align:center;padding:40px 12px 28px}
-header h1{font-size:clamp(24px,5vw,38px);font-weight:800;letter-spacing:.04em}
-header h1 span{display:inline-block;border-bottom:6px solid #D9824F;padding-bottom:6px}
-header p{margin-top:14px;color:rgba(34,49,79,.75);font-size:15px}
-.author-btn{display:inline-block;margin-top:18px;background:#22314F;color:#F7F1E6;padding:10px 22px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none}
-section{margin-top:44px}
-h2{font-size:clamp(19px,3.6vw,24px);font-weight:800;display:inline-block;border-bottom:5px solid #D9824F;padding-bottom:4px}
-.note{margin-top:8px;font-size:13px;color:rgba(34,49,79,.65)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
-@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+:root{
+  --cream:#FFF6E9; --ink:#33323E; --coral:#FF7A59; --mint:#3FC4B0;
+  --sun:#FFC93C; --grape:#8C7AE6; --line:#2A2833;
+}
+body{background:var(--cream);color:var(--ink);
+  font-family:"Hiragino Maru Gothic ProN","ヒラギノ丸ゴ ProN","Hiragino Sans",sans-serif;
+  line-height:1.6;-webkit-text-size-adjust:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px 72px}
+
+/* ---- ヒーロー ---- */
+header{position:relative;text-align:center;padding:44px 12px 30px;overflow:hidden}
+header .dots{position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(var(--sun) 3px,transparent 3px),radial-gradient(var(--mint) 3px,transparent 3px);
+  background-size:52px 52px,52px 52px;background-position:0 0,26px 26px;opacity:.28}
+header h1{position:relative;font-size:clamp(26px,6.4vw,46px);font-weight:800;letter-spacing:.02em;line-height:1.35}
+header h1 em{font-style:normal;display:inline-block;position:relative;padding:0 .1em}
+header h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.34em;
+  background:var(--sun);border-radius:99px;z-index:-1}
+.count{position:relative;display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+  background:var(--line);color:#fff;border-radius:99px;padding:8px 20px;font-size:14px;font-weight:800}
+.count b{color:var(--sun);font-size:19px}
+.lead{position:relative;margin-top:14px;font-size:15px;font-weight:700;color:#6b6577}
+.chips{position:relative;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px}
+.chips a{background:#fff;border:2.5px solid var(--line);border-radius:99px;padding:7px 15px;
+  font-size:13.5px;font-weight:800;color:var(--ink);text-decoration:none;
+  box-shadow:2px 2px 0 var(--line)}
+.chips a:active{transform:translate(2px,2px);box-shadow:none}
+
+/* ---- セクション ---- */
+section{margin-top:46px;scroll-margin-top:16px}
+h2{display:inline-block;font-size:clamp(19px,4vw,25px);font-weight:800;
+  background:#fff;border:3px solid var(--line);border-radius:99px;padding:7px 20px;
+  box-shadow:4px 4px 0 var(--line)}
+.note{margin-top:12px;font-size:13.5px;font-weight:700;color:#6b6577}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);gap:18px}}
 @media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
-.card{background:#fff;border-radius:18px;padding:14px;box-shadow:0 2px 10px rgba(34,49,79,.08);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:transform .15s}
-.card:hover{transform:translateY(-3px)}
-.thumb{position:relative;background:#F7F1E6;border-radius:12px;padding:10px;display:flex;align-items:center;justify-content:center;min-height:120px}
-.thumb img{max-width:100%;height:auto;border-radius:6px}
-.badge{position:absolute;top:8px;left:8px;font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;color:#fff;z-index:1}
-.badge.new{background:#D9824F}
-.badge.anim{background:#22314F;top:8px;left:auto;right:8px}
-.badge.kise{background:#7A9B76}
-h3{font-size:14px;font-weight:700;line-height:1.45;flex:1}
-.btn{display:block;text-align:center;background:#D9824F;color:#fff;font-size:13px;font-weight:800;padding:9px 0;border-radius:999px}
-footer{text-align:center;margin-top:56px;padding-top:28px;border-top:2px solid rgba(34,49,79,.12)}
-footer p{font-size:14px;color:rgba(34,49,79,.7)}
-footer .author-btn{margin-top:14px}
-.copy{margin-top:22px;font-size:12px;color:rgba(34,49,79,.5)}"""
+
+/* ---- カード ---- */
+.card{position:relative;min-width:0;background:#fff;border:3px solid var(--line);border-radius:20px;
+  padding:12px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:9px;
+  box-shadow:5px 5px 0 var(--line);transition:transform .12s ease,box-shadow .12s ease}
+.card:hover{transform:translate(-2px,-3px);box-shadow:8px 9px 0 var(--line)}
+.card:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--line)}
+.thumb{position:relative;background:var(--cream);border-radius:14px;padding:10px;
+  display:flex;align-items:center;justify-content:center;min-height:132px;overflow:hidden}
+.thumb::before{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(51,50,62,.09) 2px,transparent 2px);background-size:14px 14px}
+.thumb img{position:relative;max-width:100%;height:auto;border-radius:8px}
+.badge{position:absolute;top:7px;font-size:10.5px;font-weight:800;padding:3px 10px;
+  border-radius:99px;border:2px solid var(--line);z-index:2;letter-spacing:.02em}
+.badge.new{left:7px;background:var(--coral);color:#fff;transform:rotate(-7deg)}
+.badge.anim{right:7px;background:var(--mint);color:var(--line)}
+.badge.kise{right:7px;background:var(--grape);color:#fff}
+h3{font-size:14px;font-weight:800;line-height:1.45;flex:1;overflow-wrap:anywhere}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.price{font-size:15px;font-weight:800;color:var(--line)}
+.price small{font-size:11px;font-weight:700;color:#8a8496}
+.btn{background:var(--coral);color:#fff;font-size:12.5px;font-weight:800;
+  padding:7px 13px;border-radius:99px;border:2px solid var(--line);white-space:nowrap}
+
+/* ---- フッター ---- */
+footer{text-align:center;margin-top:60px;padding:32px 16px;
+  background:#fff;border:3px solid var(--line);border-radius:24px;box-shadow:6px 6px 0 var(--line)}
+footer p{font-size:15px;font-weight:800}
+.author-btn{display:inline-block;margin-top:16px;background:var(--line);color:var(--sun);
+  padding:13px 30px;border-radius:99px;font-size:15px;font-weight:800;text-decoration:none;
+  border:3px solid var(--line);box-shadow:4px 4px 0 var(--coral)}
+.author-btn:active{transform:translate(4px,4px);box-shadow:none}
+.copy{margin-top:20px;font-size:12px;font-weight:700;color:#8a8496}"""
+
+
+def price_tag(item: dict) -> str:
+    p = item.get("price")
+    return f'<span class="price">¥{p}<small>〜</small></span>' if p else ""
 
 
 def card(item: dict, d: dict) -> str:
@@ -62,42 +115,54 @@ def card(item: dict, d: dict) -> str:
     if item.get("new"):
         badges += '<span class="badge new">NEW</span>'
     if item.get("animated"):
-        badges += '<span class="badge anim">動くスタンプ</span>'
+        badges += '<span class="badge anim">うごく</span>'
     if item.get("kisekae"):
         badges += '<span class="badge kise">着せかえ</span>'
     return (
         f'<a class="card" href="{url}" target="_blank" rel="noopener">\n'
         f'      <div class="thumb">{badges}<img src="{img}" alt="{title}" loading="lazy"></div>\n'
         f"      <h3>{title}</h3>\n"
-        f'      <span class="btn">LINEストアで見る</span>\n'
+        f'      <div class="foot">{price_tag(item)}<span class="btn">見てみる →</span></div>\n'
         f"    </a>"
     )
 
 
+def slug(i: int) -> str:
+    return f"cat{i}"
+
+
 def build() -> str:
     d = json.loads(DATA.read_text(encoding="utf-8"))
-    total = sum(len(c["items"]) for c in d["categories"])
-    secs = []
-    for c in d["categories"]:
-        note = f'<p class="note">{html.escape(c["note"])}</p>' if c.get("note") else ""
-        cards = "\n".join(card(i, d) for i in c["items"])
-        secs.append(
-            f'<section><h2>{html.escape(c["name"])}</h2>{note}<div class="grid">{cards}</div></section>'
-        )
+    cats = d["categories"]
+    total = sum(len(c["items"]) for c in cats)
     author = d["author_page"]
+
+    chips = "".join(
+        f'<a href="#{slug(i)}">{html.escape(c["name"])}</a>' for i, c in enumerate(cats)
+    )
+    secs = []
+    for i, c in enumerate(cats):
+        note = f'<p class="note">{html.escape(c["note"])}</p>' if c.get("note") else ""
+        cards = "\n".join(card(it, d) for it in c["items"])
+        secs.append(
+            f'<section id="{slug(i)}"><h2>{html.escape(c["name"])}</h2>{note}'
+            f'<div class="grid">{cards}</div></section>'
+        )
+
     return (
         '<!doctype html><html lang="ja"><head><meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
         f'<title>{html.escape(d["author"])}のLINEスタンプ</title>\n'
         f"<style>\n{STYLE}\n</style></head><body><div class=\"wrap\">\n"
-        "<header>\n"
-        f'<h1><span>{html.escape(d["author"])}の<br>LINEスタンプ</span></h1>\n'
-        f"<p>ぜんぶAIと一緒に作りました。全{total}作品</p>\n"
-        f'<a class="author-btn" href="{author}" target="_blank" rel="noopener">作者ページで全部見る</a>\n'
+        '<header><div class="dots"></div>\n'
+        f'<h1>{html.escape(d["author"])}の<br><em>LINEスタンプ</em></h1>\n'
+        f'<div class="count">ぜんぶで <b>{total}</b> 作品</div>\n'
+        '<p class="lead">ねこも、方言も、言いにくいひとことも。</p>\n'
+        f'<div class="chips">{chips}</div>\n'
         "</header>\n" + "\n".join(secs) + "\n\n<footer>\n"
-        "<p>新作はときどき増えます。</p>\n"
-        f'<a class="author-btn" href="{author}" target="_blank" rel="noopener">最新の一覧はこちら</a>\n'
-        f'<p class="copy">© 2026 {html.escape(d["author"])}</p>\n'
+        "<p>新作はときどき増えます 🐾</p>\n"
+        f'<a class="author-btn" href="{author}" target="_blank" rel="noopener">ぜんぶ見る</a>\n'
+        '<p class="copy">© Experisent</p>\n'
         "</footer>\n</div></body></html>\n"
     )
 
