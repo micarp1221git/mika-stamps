@@ -13,10 +13,14 @@
    ・「大人気」「バズった」等の事実でない言葉
    ・コピーライトの年（© Experisent だけ）
 
-⭐ コーナー運用（2026-09-01 みかさん）:
-   ・「おすすめ」＝一番上。1つでも売れた作品に item に "recommended": true を付けて入れる。
-     販売数が増えてきたら人気順に5つくらいに絞る。「マンガでしか言わない言葉」は必ず置く（desc付き）。
-   ・「NEW」＝ "new": true の最新5作品くらい。新作が出たら古いものの new を外す。
+⭐ コーナー運用（2026-09-01 みかさん・同日夜に更新）:
+   ・上3コーナー（おすすめ／NEW／うごく）は**横1行のスクロール列**。PC幅では5個がちょうど収まる
+     （「5個にすると列がはみ出ちゃう」対策。グリッドだと5個目が折り返して1個だけはみ出るため）。
+   ・「おすすめ」＝一番上・**ちょうど5個**（"recommended": true。6個以上付けても先頭5個しか出ない）。
+     「マンガでしか言わない言葉」は必ず置く。おすすめカードは desc も表示される。
+   ・「NEW」＝ "new": true の最新5作品。新作が出たら古いものの new を外す。
+   ・「うごく」＝ "animated": true 全部。**個数制限なし**（今後も増える前提・2026-09-01みかさん）。
+   ・その下に従来どおりカテゴリ別の全作品一覧（こちらは通常グリッド）。
    ・未承認でおすすめ予定の作品は stamps-data.json の pending_recommended に控えてある
      （承認されて items に足すとき recommended を付ける）。
 """
@@ -71,6 +75,14 @@ h2{display:inline-block;font-size:clamp(19px,4vw,25px);font-weight:800;
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
 @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);gap:18px}}
 @media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ---- 横1行コーナー（おすすめ/NEW/うごく）。PC幅で5個ぴったり・あふれた分は横スクロール ---- */
+.row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(160px,44%);gap:14px;
+  margin-top:20px;overflow-x:auto;padding:2px 10px 16px 2px;
+  -webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:thin}
+.row .card{scroll-snap-align:start}
+@media(min-width:640px){.row{grid-auto-columns:28%;gap:18px}}
+@media(min-width:900px){.row{grid-auto-columns:calc((100% - 72px)/5)}}
 
 /* ---- カード ---- */
 .card{position:relative;min-width:0;background:#fff;border:3px solid var(--line);border-radius:20px;
@@ -156,31 +168,31 @@ def build() -> str:
     )
     secs = []
 
-    # ⭐ おすすめ（1つでも売れた作品・一番上）
-    reco = [it for c in cats for it in c["items"] if it.get("recommended")]
+    # ⭐ おすすめ（ちょうど5個・一番上・横1行）
+    reco = [it for c in cats for it in c["items"] if it.get("recommended")][:5]
     if reco:
         cards = "\n".join(card(it, d, with_desc=True) for it in reco)
         secs.append(
             '<section id="osusume"><h2>⭐ おすすめ</h2>'
-            f'<div class="grid">{cards}</div></section>'
+            f'<div class="row">{cards}</div></section>'
         )
 
-    # 🆕 NEW（最新5作品くらい）
+    # 🆕 NEW（最新5作品・横1行）
     news = [it for c in cats for it in c["items"] if it.get("new") and not it.get("recommended")][:5]
     if news:
         cards = "\n".join(card(it, d) for it in news)
         secs.append(
             '<section id="shinsaku"><h2>🆕 NEW</h2>'
-            f'<div class="grid">{cards}</div></section>'
+            f'<div class="row">{cards}</div></section>'
         )
 
-    # 🏃 うごくスタンプ（NEWの次・2026-09-01みかさん）
+    # 🏃 うごくスタンプ（NEWの次・個数制限なし・横1行スクロール）
     anims = [it for c in cats for it in c["items"] if it.get("animated")]
     if anims:
         cards = "\n".join(card(it, d) for it in anims)
         secs.append(
             '<section id="ugoku"><h2>🏃 うごくスタンプ</h2>'
-            f'<div class="grid">{cards}</div></section>'
+            f'<div class="row">{cards}</div></section>'
         )
     for i, c in enumerate(cats):
         note = f'<p class="note">{html.escape(c["note"])}</p>' if c.get("note") else ""

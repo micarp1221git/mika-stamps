@@ -41,6 +41,14 @@ h2{display:inline-block;font-size:clamp(19px,4vw,25px);font-weight:800;
 @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);gap:18px}}
 @media(min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
 
+/* ---- 横1行コーナー（おすすめ/NEW/うごく）。PC幅で5個ぴったり・あふれた分は横スクロール ---- */
+.row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(160px,44%);gap:14px;
+  margin-top:20px;overflow-x:auto;padding:2px 10px 16px 2px;
+  -webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:thin}
+.row .card{scroll-snap-align:start}
+@media(min-width:640px){.row{grid-auto-columns:28%;gap:18px}}
+@media(min-width:900px){.row{grid-auto-columns:calc((100% - 72px)/5)}}
+
 /* ---- カード ---- */
 .card{position:relative;min-width:0;background:#fff;border:3px solid var(--line);border-radius:20px;
   padding:12px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:9px;
@@ -82,9 +90,10 @@ footer p{font-size:15px;font-weight:800}
 <p class="lead">ねこも、方言も、言いにくいひとことも。</p>
 <div class="chips"><a href="#osusume">⭐ おすすめ</a><a href="#shinsaku">🆕 NEW</a><a href="#ugoku">🏃 うごく</a><a href="#cat0">💬 ことば・英語</a><a href="#cat1">🐈 ねこシリーズ</a><a href="#cat2">🗾 方言・ご当地</a><a href="#cat3">🏐 スポーツ</a><a href="#cat4">🦦 カワウソ</a><a href="#cat5">🎵 声と音のなかまたち</a></div>
 </header>
-<section id="osusume"><h2>⭐ おすすめ</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36061002/ja" target="_blank" rel="noopener">
+<section id="osusume"><h2>⭐ おすすめ</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36061002/ja" target="_blank" rel="noopener">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061002/LINEStorePC/main.png" alt="今どきの返事、英語つき" loading="lazy"></div>
       <h3>今どきの返事、英語つき</h3>
+      <p class="desc">「それな」も「わかりみ」も英語つき。今どきの返しがそのまま送れます</p>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
 <a class="card" href="https://store.line.me/stickershop/product/36061297/ja" target="_blank" rel="noopener">
@@ -93,12 +102,25 @@ footer p{font-size:15px;font-weight:800}
       <p class="desc">「ガーン」「ギクッ」「どよーん」など、口には出さないマンガの擬音を、まるいマスコットが全身で表現します。リアクションを盛りたい時に。</p>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
+<a class="card" href="https://store.line.me/stickershop/product/36125051/ja" target="_blank" rel="noopener">
+      <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125051/LINEStorePC/main.png" alt="毎日使えるさびねこの返事" loading="lazy"></div>
+      <h3>毎日使えるさびねこの返事</h3>
+      <p class="desc">さびねこシリーズはここから。毎日の返事がひととおりそろいます</p>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36125014/ja" target="_blank" rel="noopener">
+      <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125014/LINEStorePC/main.png" alt="広島弁もみじ饅頭の返事" loading="lazy"></div>
+      <h3>広島弁もみじ饅頭の返事</h3>
+      <p class="desc">広島弁でゆるっと返事するもみじ饅頭。地元トークのお供に</p>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
 <a class="card" href="https://store.line.me/stickershop/product/36061282/ja" target="_blank" rel="noopener">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061282/LINEStorePC/main.png" alt="ウソつくカワウソ" loading="lazy"></div>
       <h3>ウソつくカワウソ</h3>
+      <p class="desc">バレバレのウソをつくカワウソ。ごまかしたい日の返事はこの子におまかせ</p>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="shinsaku"><h2>🆕 NEW</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36205085/ja" target="_blank" rel="noopener">
+<section id="shinsaku"><h2>🆕 NEW</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36205085/ja" target="_blank" rel="noopener">
       <div class="thumb"><span class="badge new">NEW</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205085/LINEStorePC/main.png" alt="まだあるマンガでしか言わない言葉" loading="lazy"></div>
       <h3>まだあるマンガでしか言わない言葉</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
@@ -123,7 +145,7 @@ footer p{font-size:15px;font-weight:800}
       <h3>黄色と青のバレーボール部</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="ugoku"><h2>🏃 うごくスタンプ</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36205146/ja" target="_blank" rel="noopener">
+<section id="ugoku"><h2>🏃 うごくスタンプ</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36205146/ja" target="_blank" rel="noopener">
       <div class="thumb"><span class="badge new">NEW</span><span class="badge anim">うごく</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205146/LINEStorePC/main.png" alt="謎の動きをするさびねこ" loading="lazy"></div>
       <h3>謎の動きをするさびねこ</h3>
       <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
@@ -169,7 +191,7 @@ footer p{font-size:15px;font-weight:800}
       <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
 <a class="card" href="https://store.line.me/stickershop/product/36125051/ja" target="_blank" rel="noopener">
-      <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125051/LINEStorePC/main.png" alt="毎日使えるさびねこの返事" loading="lazy"></div>
+      <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125051/LINEStorePC/main.png" alt="毎日使えるさびねこの返事" loading="lazy"></div>
       <h3>毎日使えるさびねこの返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
@@ -224,7 +246,7 @@ footer p{font-size:15px;font-weight:800}
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
 <a class="card" href="https://store.line.me/stickershop/product/36125014/ja" target="_blank" rel="noopener">
-      <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125014/LINEStorePC/main.png" alt="広島弁もみじ饅頭の返事" loading="lazy"></div>
+      <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125014/LINEStorePC/main.png" alt="広島弁もみじ饅頭の返事" loading="lazy"></div>
       <h3>広島弁もみじ饅頭の返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
