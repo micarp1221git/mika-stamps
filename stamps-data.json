@@ -1,6 +1,12 @@
 {
   "author": "ボイストレーナーみか",
   "author_page": "https://store.line.me/stickershop/author/301799/ja",
+  "url_pattern": "https://store.line.me/stickershop/product/<id>/ja",
+  "img_pattern": "https://stickershop.line-scdn.net/stickershop/v1/product/<id>/LINEStorePC/main.png",
+  "pending_recommended": [
+    "さびねこのきもち",
+    "ダジャレをうつバレーボール"
+  ],
   "categories": [
     {
       "name": "💬 ことば・英語",
@@ -20,7 +26,8 @@
         {
           "title": "今どきの返事、英語つき",
           "id": 36061002,
-          "price": 190
+          "price": 190,
+          "recommended": true
         },
         {
           "title": "無表情トースターの英語返し",
@@ -30,7 +37,9 @@
         {
           "title": "マンガでしか言わない言葉",
           "id": 36061297,
-          "price": 190
+          "price": 190,
+          "recommended": true,
+          "desc": "「ガーン」「ギクッ」「どよーん」など、口には出さないマンガの擬音を、まるいマスコットが全身で表現します。リアクションを盛りたい時に。"
         }
       ]
     },
@@ -140,7 +149,8 @@
         {
           "title": "ウソつくカワウソ",
           "id": 36061282,
-          "price": 190
+          "price": 190,
+          "recommended": true
         },
         {
           "title": "まいにちカワウソ（着せかえ）",
@@ -177,7 +187,5 @@
         }
       ]
     }
-  ],
-  "url_pattern": "https://store.line.me/stickershop/product/<id>/ja",
-  "img_pattern": "https://stickershop.line-scdn.net/stickershop/v1/product/<id>/LINEStorePC/main.png"
+  ]
 }

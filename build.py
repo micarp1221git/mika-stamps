@@ -12,6 +12,13 @@
    ・「AIと一緒に作りました」系（AIを嫌がる人がいるので、わざわざ書かない）
    ・「大人気」「バズった」等の事実でない言葉
    ・コピーライトの年（© Experisent だけ）
+
+⭐ コーナー運用（2026-09-01 みかさん）:
+   ・「おすすめ」＝一番上。1つでも売れた作品に item に "recommended": true を付けて入れる。
+     販売数が増えてきたら人気順に5つくらいに絞る。「マンガでしか言わない言葉」は必ず置く（desc付き）。
+   ・「NEW」＝ "new": true の最新5作品くらい。新作が出たら古いものの new を外す。
+   ・未承認でおすすめ予定の作品は stamps-data.json の pending_recommended に控えてある
+     （承認されて items に足すとき recommended を付ける）。
 """
 
 from __future__ import annotations
@@ -82,6 +89,8 @@ h2{display:inline-block;font-size:clamp(19px,4vw,25px);font-weight:800;
 .badge.anim{right:7px;background:var(--mint);color:var(--line)}
 .badge.kise{right:7px;background:var(--grape);color:#fff}
 h3{font-size:14px;font-weight:800;line-height:1.45;flex:1;overflow-wrap:anywhere}
+.desc{font-size:12px;font-weight:700;color:#6b6577;line-height:1.6}
+.badge.osusume{left:7px;background:var(--sun);color:var(--line);transform:rotate(-7deg)}
 .foot{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
 .price{font-size:15px;font-weight:800;color:var(--line)}
 .price small{font-size:11px;font-weight:700;color:#8a8496}
@@ -104,7 +113,7 @@ def price_tag(item: dict) -> str:
     return f'<span class="price">¥{p}<small>〜</small></span>' if p else ""
 
 
-def card(item: dict, d: dict) -> str:
+def card(item: dict, d: dict, with_desc: bool = False) -> str:
     title = html.escape(item["title"])
     if item.get("kisekae"):
         url, img = item["theme_url"], item["img"]
@@ -112,16 +121,21 @@ def card(item: dict, d: dict) -> str:
         url = d["url_pattern"].replace("<id>", str(item["id"]))
         img = d["img_pattern"].replace("<id>", str(item["id"]))
     badges = ""
-    if item.get("new"):
+    if item.get("recommended"):
+        badges += '<span class="badge osusume">おすすめ</span>'
+    elif item.get("new"):
         badges += '<span class="badge new">NEW</span>'
     if item.get("animated"):
         badges += '<span class="badge anim">うごく</span>'
     if item.get("kisekae"):
         badges += '<span class="badge kise">着せかえ</span>'
+    desc = ""
+    if with_desc and item.get("desc"):
+        desc = f'      <p class="desc">{html.escape(item["desc"])}</p>\n'
     return (
         f'<a class="card" href="{url}" target="_blank" rel="noopener">\n'
         f'      <div class="thumb">{badges}<img src="{img}" alt="{title}" loading="lazy"></div>\n'
-        f"      <h3>{title}</h3>\n"
+        f"      <h3>{title}</h3>\n" + desc +
         f'      <div class="foot">{price_tag(item)}<span class="btn">見てみる →</span></div>\n'
         f"    </a>"
     )
@@ -137,10 +151,28 @@ def build() -> str:
     total = sum(len(c["items"]) for c in cats)
     author = d["author_page"]
 
-    chips = "".join(
+    chips = '<a href="#osusume">⭐ おすすめ</a><a href="#shinsaku">🆕 NEW</a>' + "".join(
         f'<a href="#{slug(i)}">{html.escape(c["name"])}</a>' for i, c in enumerate(cats)
     )
     secs = []
+
+    # ⭐ おすすめ（1つでも売れた作品・一番上）
+    reco = [it for c in cats for it in c["items"] if it.get("recommended")]
+    if reco:
+        cards = "\n".join(card(it, d, with_desc=True) for it in reco)
+        secs.append(
+            '<section id="osusume"><h2>⭐ おすすめ</h2>'
+            f'<div class="grid">{cards}</div></section>'
+        )
+
+    # 🆕 NEW（最新5作品くらい）
+    news = [it for c in cats for it in c["items"] if it.get("new") and not it.get("recommended")][:5]
+    if news:
+        cards = "\n".join(card(it, d) for it in news)
+        secs.append(
+            '<section id="shinsaku"><h2>🆕 NEW</h2>'
+            f'<div class="grid">{cards}</div></section>'
+        )
     for i, c in enumerate(cats):
         note = f'<p class="note">{html.escape(c["note"])}</p>' if c.get("note") else ""
         cards = "\n".join(card(it, d) for it in c["items"])
