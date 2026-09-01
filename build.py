@@ -151,7 +151,7 @@ def build() -> str:
     total = sum(len(c["items"]) for c in cats)
     author = d["author_page"]
 
-    chips = '<a href="#osusume">⭐ おすすめ</a><a href="#shinsaku">🆕 NEW</a>' + "".join(
+    chips = '<a href="#osusume">⭐ おすすめ</a><a href="#shinsaku">🆕 NEW</a><a href="#ugoku">🏃 うごく</a>' + "".join(
         f'<a href="#{slug(i)}">{html.escape(c["name"])}</a>' for i, c in enumerate(cats)
     )
     secs = []
@@ -171,6 +171,15 @@ def build() -> str:
         cards = "\n".join(card(it, d) for it in news)
         secs.append(
             '<section id="shinsaku"><h2>🆕 NEW</h2>'
+            f'<div class="grid">{cards}</div></section>'
+        )
+
+    # 🏃 うごくスタンプ（NEWの次・2026-09-01みかさん）
+    anims = [it for c in cats for it in c["items"] if it.get("animated")]
+    if anims:
+        cards = "\n".join(card(it, d) for it in anims)
+        secs.append(
+            '<section id="ugoku"><h2>🏃 うごくスタンプ</h2>'
             f'<div class="grid">{cards}</div></section>'
         )
     for i, c in enumerate(cats):
