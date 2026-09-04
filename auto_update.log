@@ -43,3 +43,5 @@
 2026-09-03 20:17:07 Discord通知に失敗(本体は続行): HTTP Error 403: Forbidden
 2026-09-03 20:17:07 🚨 Creators Marketのログインが切れています。追加チェックできていません
 2026-09-03 20:17:07 Discord通知に失敗(本体は続行): HTTP Error 403: Forbidden
+2026-09-04 10:17:20 作者ページp3の取得に失敗: HTTP Error 404: Not Found
+✅ index.html を書き出しました（43作品）
