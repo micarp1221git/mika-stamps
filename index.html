@@ -74,6 +74,22 @@ h3{font-size:14px;font-weight:800;line-height:1.45;flex:1;overflow-wrap:anywhere
 .btn{background:var(--coral);color:#fff;font-size:12.5px;font-weight:800;
   padding:7px 13px;border-radius:99px;border:2px solid var(--line);white-space:nowrap}
 
+/* ---- 検索バー ---- */
+.search{position:relative;max-width:520px;margin:22px auto 0;display:flex;align-items:center;gap:10px;
+  background:#fff;border:3px solid var(--line);border-radius:99px;padding:6px 8px 6px 18px;box-shadow:4px 4px 0 var(--line)}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:700;color:var(--ink)}
+.search input::placeholder{color:#a39db0;font-weight:700}
+.search .qn{font-size:12.5px;font-weight:800;color:#fff;background:var(--line);border-radius:99px;padding:6px 12px;white-space:nowrap}
+.search .qx{border:0;background:var(--sun);color:var(--line);font-weight:800;font-size:14px;width:32px;height:32px;border-radius:99px;cursor:pointer;display:none}
+.search.on .qx{display:inline-block}
+.card.hide,section.hide{display:none}
+.noresult{display:none;margin-top:24px;text-align:center;font-weight:800;color:#6b6577}
+.noresult.on{display:block}
+
+/* ---- ランキング ---- */
+.badge.rank{left:7px;background:var(--line);color:var(--sun);transform:rotate(-7deg);font-size:12px}
+.badge.rank.r1{background:var(--sun);color:var(--line)}
+
 /* ---- フッター ---- */
 footer{text-align:center;margin-top:60px;padding:32px 16px;
   background:#fff;border:3px solid var(--line);border-radius:24px;box-shadow:6px 6px 0 var(--line)}
@@ -88,402 +104,472 @@ footer p{font-size:15px;font-weight:800}
 <h1>ボイストレーナーみかの<br><em>LINEスタンプ</em></h1>
 <div class="count">ぜんぶで <b>68</b> 作品</div>
 <p class="lead">ねこも、方言も、言いにくいひとことも。</p>
-<div class="chips"><a href="#osusume">⭐ おすすめ</a><a href="#shinsaku">🆕 NEW</a><a href="#ugoku">🏃 うごく</a><a href="#cat0">💬 ことば・英語</a><a href="#cat1">🐈 ねこシリーズ</a><a href="#cat2">🗾 方言・ご当地</a><a href="#cat3">🏐 スポーツ</a><a href="#cat4">🦦 カワウソ</a><a href="#cat5">🎵 声と音のなかまたち</a><a href="#cat6">🆕 そのほか</a></div>
+<div class="chips"><a href="#osusume">⭐ おすすめ</a><a href="#ranking">🏆 売れてる順</a><a href="#shinsaku">🆕 NEW</a><a href="#ugoku">🏃 うごく</a><a href="#cat0">💬 ことば・英語</a><a href="#cat1">🐈 ねこシリーズ</a><a href="#cat2">🗾 方言・ご当地</a><a href="#cat3">🏐 スポーツ</a><a href="#cat4">🦦 カワウソ</a><a href="#cat5">🎵 声と音のなかまたち</a><a href="#cat6">🆕 そのほか</a></div>
+<form class="search" id="search" role="search" onsubmit="return false"><input id="q" type="search" placeholder="スタンプをさがす" autocomplete="off" aria-label="スタンプをさがす"><span class="qn" id="qn" hidden></span><button type="button" class="qx" id="qx" aria-label="検索をクリア">×</button></form>
 </header>
-<section id="osusume"><h2>⭐ おすすめ</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36061002/ja" target="_blank" rel="noopener">
+<section id="osusume"><h2>⭐ おすすめ</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36061002/ja" target="_blank" rel="noopener" data-s="今どきの返事、英語つき 「それな」も「わかりみ」も英語つき。今どきの返しがそのまま送れます">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061002/LINEStorePC/main.png" alt="今どきの返事、英語つき" loading="lazy"></div>
       <h3>今どきの返事、英語つき</h3>
       <p class="desc">「それな」も「わかりみ」も英語つき。今どきの返しがそのまま送れます</p>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36061297/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36061297/ja" target="_blank" rel="noopener" data-s="マンガでしか言わない言葉 「ガーン」「ギクッ」「どよーん」など、口には出さないマンガの擬音を、まるいマスコットが全身で表現します。リアクションを盛りたい時に。">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061297/LINEStorePC/main.png" alt="マンガでしか言わない言葉" loading="lazy"></div>
       <h3>マンガでしか言わない言葉</h3>
       <p class="desc">「ガーン」「ギクッ」「どよーん」など、口には出さないマンガの擬音を、まるいマスコットが全身で表現します。リアクションを盛りたい時に。</p>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125051/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125051/ja" target="_blank" rel="noopener" data-s="毎日使えるさびねこの返事 さびねこシリーズはここから。毎日の返事がひととおりそろいます">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125051/LINEStorePC/main.png" alt="毎日使えるさびねこの返事" loading="lazy"></div>
       <h3>毎日使えるさびねこの返事</h3>
       <p class="desc">さびねこシリーズはここから。毎日の返事がひととおりそろいます</p>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125014/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125014/ja" target="_blank" rel="noopener" data-s="広島弁もみじ饅頭の返事 広島弁でゆるっと返事するもみじ饅頭。地元トークのお供に">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125014/LINEStorePC/main.png" alt="広島弁もみじ饅頭の返事" loading="lazy"></div>
       <h3>広島弁もみじ饅頭の返事</h3>
       <p class="desc">広島弁でゆるっと返事するもみじ饅頭。地元トークのお供に</p>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36061282/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36061282/ja" target="_blank" rel="noopener" data-s="ウソつくカワウソ バレバレのウソをつくカワウソ。ごまかしたい日の返事はこの子におまかせ">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061282/LINEStorePC/main.png" alt="ウソつくカワウソ" loading="lazy"></div>
       <h3>ウソつくカワウソ</h3>
       <p class="desc">バレバレのウソをつくカワウソ。ごまかしたい日の返事はこの子におまかせ</p>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="shinsaku"><h2>🆕 NEW</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36474026/ja" target="_blank" rel="noopener">
+<section id="ranking"><h2>🏆 売れてる順</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36061297/ja" target="_blank" rel="noopener" data-s="マンガでしか言わない言葉 「ガーン」「ギクッ」「どよーん」など、口には出さないマンガの擬音を、まるいマスコットが全身で表現します。リアクションを盛りたい時に。">
+      <div class="thumb"><span class="badge rank r1">1位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061297/LINEStorePC/main.png" alt="マンガでしか言わない言葉" loading="lazy"></div>
+      <h3>マンガでしか言わない言葉</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36257238/ja" target="_blank" rel="noopener" data-s="動く黄色と青のバレーボール うごく">
+      <div class="thumb"><span class="badge rank r2">2位</span><span class="badge anim">うごく</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36257238/LINEStorePC/main.png" alt="動く黄色と青のバレーボール" loading="lazy"></div>
+      <h3>動く黄色と青のバレーボール</h3>
+      <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36125014/ja" target="_blank" rel="noopener" data-s="広島弁もみじ饅頭の返事 広島弁でゆるっと返事するもみじ饅頭。地元トークのお供に">
+      <div class="thumb"><span class="badge rank r3">3位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125014/LINEStorePC/main.png" alt="広島弁もみじ饅頭の返事" loading="lazy"></div>
+      <h3>広島弁もみじ饅頭の返事</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36259499/ja" target="_blank" rel="noopener" data-s="ダジャレをうつバレーボール">
+      <div class="thumb"><span class="badge rank r4">4位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36259499/LINEStorePC/main.png" alt="ダジャレをうつバレーボール" loading="lazy"></div>
+      <h3>ダジャレをうつバレーボール</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36125038/ja" target="_blank" rel="noopener" data-s="毎日使える口が悪いねこ">
+      <div class="thumb"><span class="badge rank r5">5位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125038/LINEStorePC/main.png" alt="毎日使える口が悪いねこ" loading="lazy"></div>
+      <h3>毎日使える口が悪いねこ</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36205042/ja" target="_blank" rel="noopener" data-s="まだまだ広島弁のもみじ饅頭">
+      <div class="thumb"><span class="badge rank r6">6位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205042/LINEStorePC/main.png" alt="まだまだ広島弁のもみじ饅頭" loading="lazy"></div>
+      <h3>まだまだ広島弁のもみじ饅頭</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36205048/ja" target="_blank" rel="noopener" data-s="黄色と青のバレーボール部">
+      <div class="thumb"><span class="badge rank r7">7位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205048/LINEStorePC/main.png" alt="黄色と青のバレーボール部" loading="lazy"></div>
+      <h3>黄色と青のバレーボール部</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36259504/ja" target="_blank" rel="noopener" data-s="さびねこのきもち">
+      <div class="thumb"><span class="badge rank r8">8位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36259504/LINEStorePC/main.png" alt="さびねこのきもち" loading="lazy"></div>
+      <h3>さびねこのきもち</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36259488/ja" target="_blank" rel="noopener" data-s="バレーボールのおうち連絡">
+      <div class="thumb"><span class="badge rank r9">9位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36259488/LINEStorePC/main.png" alt="バレーボールのおうち連絡" loading="lazy"></div>
+      <h3>バレーボールのおうち連絡</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a>
+<a class="card" href="https://store.line.me/stickershop/product/36395600/ja" target="_blank" rel="noopener" data-s="毎日つかえるありがとウサギ">
+      <div class="thumb"><span class="badge rank r10">10位</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36395600/LINEStorePC/main.png" alt="毎日つかえるありがとウサギ" loading="lazy"></div>
+      <h3>毎日つかえるありがとウサギ</h3>
+      <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
+    </a></div></section>
+<section id="shinsaku"><h2>🆕 NEW</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36474026/ja" target="_blank" rel="noopener" data-s="日めくりの煽り">
       <div class="thumb"><span class="badge new">NEW</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36474026/LINEStorePC/main.png" alt="日めくりの煽り" loading="lazy"></div>
       <h3>日めくりの煽り</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="ugoku"><h2>🏃 うごくスタンプ</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36205146/ja" target="_blank" rel="noopener">
+<section id="ugoku"><h2>🏃 うごくスタンプ</h2><div class="row"><a class="card" href="https://store.line.me/stickershop/product/36205146/ja" target="_blank" rel="noopener" data-s="謎の動きをするさびねこ うごく">
       <div class="thumb"><span class="badge anim">うごく</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205146/LINEStorePC/main.png" alt="謎の動きをするさびねこ" loading="lazy"></div>
       <h3>謎の動きをするさびねこ</h3>
       <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36141716/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36141716/ja" target="_blank" rel="noopener" data-s="動くさびねこのおねだり うごく">
       <div class="thumb"><span class="badge anim">うごく</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36141716/LINEStorePC/main.png" alt="動くさびねこのおねだり" loading="lazy"></div>
       <h3>動くさびねこのおねだり</h3>
       <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36257238/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36257238/ja" target="_blank" rel="noopener" data-s="動く黄色と青のバレーボール うごく">
       <div class="thumb"><span class="badge anim">うごく</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36257238/LINEStorePC/main.png" alt="動く黄色と青のバレーボール" loading="lazy"></div>
       <h3>動く黄色と青のバレーボール</h3>
       <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="cat0"><h2>💬 ことば・英語</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36413000/ja" target="_blank" rel="noopener">
+<section id="cat0"><h2>💬 ことば・英語</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36413000/ja" target="_blank" rel="noopener" data-s="うごかないアザラシの返事 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36413000/LINEStorePC/main.png" alt="うごかないアザラシの返事" loading="lazy"></div>
       <h3>うごかないアザラシの返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36322131/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36322131/ja" target="_blank" rel="noopener" data-s="ほくほく焼きいもの返事 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36322131/LINEStorePC/main.png" alt="ほくほく焼きいもの返事" loading="lazy"></div>
       <h3>ほくほく焼きいもの返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36298544/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36298544/ja" target="_blank" rel="noopener" data-s="大きな文字のかめの返事 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36298544/LINEStorePC/main.png" alt="大きな文字のかめの返事" loading="lazy"></div>
       <h3>大きな文字のかめの返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36298563/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36298563/ja" target="_blank" rel="noopener" data-s="おばけかぼちゃのハロウィン返事 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36298563/LINEStorePC/main.png" alt="おばけかぼちゃのハロウィン返事" loading="lazy"></div>
       <h3>おばけかぼちゃのハロウィン返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36271374/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36271374/ja" target="_blank" rel="noopener" data-s="早口言葉にちょうせんするカエル 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36271374/LINEStorePC/main.png" alt="早口言葉にちょうせんするカエル" loading="lazy"></div>
       <h3>早口言葉にちょうせんするカエル</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36259482/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36259482/ja" target="_blank" rel="noopener" data-s="もっとマンガでしか言わない言葉 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36259482/LINEStorePC/main.png" alt="もっとマンガでしか言わない言葉" loading="lazy"></div>
       <h3>もっとマンガでしか言わない言葉</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36259498/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36259498/ja" target="_blank" rel="noopener" data-s="まだある今どきの返事、英語つき 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36259498/LINEStorePC/main.png" alt="まだある今どきの返事、英語つき" loading="lazy"></div>
       <h3>まだある今どきの返事、英語つき</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36205085/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36205085/ja" target="_blank" rel="noopener" data-s="まだあるマンガでしか言わない言葉 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205085/LINEStorePC/main.png" alt="まだあるマンガでしか言わない言葉" loading="lazy"></div>
       <h3>まだあるマンガでしか言わない言葉</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36205064/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36205064/ja" target="_blank" rel="noopener" data-s="言いにくいことはクッションが言う 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205064/LINEStorePC/main.png" alt="言いにくいことはクッションが言う" loading="lazy"></div>
       <h3>言いにくいことはクッションが言う</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36061002/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36061002/ja" target="_blank" rel="noopener" data-s="今どきの返事、英語つき 「それな」も「わかりみ」も英語つき。今どきの返しがそのまま送れます 💬 ことば・英語">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061002/LINEStorePC/main.png" alt="今どきの返事、英語つき" loading="lazy"></div>
       <h3>今どきの返事、英語つき</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36061295/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36061295/ja" target="_blank" rel="noopener" data-s="無表情トースターの英語返し 💬 ことば・英語">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061295/LINEStorePC/main.png" alt="無表情トースターの英語返し" loading="lazy"></div>
       <h3>無表情トースターの英語返し</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36061297/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36061297/ja" target="_blank" rel="noopener" data-s="マンガでしか言わない言葉 「ガーン」「ギクッ」「どよーん」など、口には出さないマンガの擬音を、まるいマスコットが全身で表現します。リアクションを盛りたい時に。 💬 ことば・英語">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061297/LINEStorePC/main.png" alt="マンガでしか言わない言葉" loading="lazy"></div>
       <h3>マンガでしか言わない言葉</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="cat1"><h2>🐈 ねこシリーズ</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36439618/ja" target="_blank" rel="noopener">
+<section id="cat1"><h2>🐈 ねこシリーズ</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36439618/ja" target="_blank" rel="noopener" data-s="さびねこのあいさつ 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36439618/LINEStorePC/main.png" alt="さびねこのあいさつ" loading="lazy"></div>
       <h3>さびねこのあいさつ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36413001/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36413001/ja" target="_blank" rel="noopener" data-s="さびねこの関西弁 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36413001/LINEStorePC/main.png" alt="さびねこの関西弁" loading="lazy"></div>
       <h3>さびねこの関西弁</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36395555/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36395555/ja" target="_blank" rel="noopener" data-s="さびねこの秋 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36395555/LINEStorePC/main.png" alt="さびねこの秋" loading="lazy"></div>
       <h3>さびねこの秋</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36322116/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36322116/ja" target="_blank" rel="noopener" data-s="さびねこのおつかれさま 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36322116/LINEStorePC/main.png" alt="さびねこのおつかれさま" loading="lazy"></div>
       <h3>さびねこのおつかれさま</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36298560/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36298560/ja" target="_blank" rel="noopener" data-s="さびねこのおでかけ連絡 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36298560/LINEStorePC/main.png" alt="さびねこのおでかけ連絡" loading="lazy"></div>
       <h3>さびねこのおでかけ連絡</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36271400/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36271400/ja" target="_blank" rel="noopener" data-s="さびねこのこんだて 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36271400/LINEStorePC/main.png" alt="さびねこのこんだて" loading="lazy"></div>
       <h3>さびねこのこんだて</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36259504/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36259504/ja" target="_blank" rel="noopener" data-s="さびねこのきもち 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36259504/LINEStorePC/main.png" alt="さびねこのきもち" loading="lazy"></div>
       <h3>さびねこのきもち</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36205146/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36205146/ja" target="_blank" rel="noopener" data-s="謎の動きをするさびねこ 🐈 ねこシリーズ うごく">
       <div class="thumb"><span class="badge anim">うごく</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205146/LINEStorePC/main.png" alt="謎の動きをするさびねこ" loading="lazy"></div>
       <h3>謎の動きをするさびねこ</h3>
       <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36141716/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36141716/ja" target="_blank" rel="noopener" data-s="動くさびねこのおねだり 🐈 ねこシリーズ うごく">
       <div class="thumb"><span class="badge anim">うごく</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36141716/LINEStorePC/main.png" alt="動くさびねこのおねだり" loading="lazy"></div>
       <h3>動くさびねこのおねだり</h3>
       <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125051/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125051/ja" target="_blank" rel="noopener" data-s="毎日使えるさびねこの返事 さびねこシリーズはここから。毎日の返事がひととおりそろいます 🐈 ねこシリーズ">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125051/LINEStorePC/main.png" alt="毎日使えるさびねこの返事" loading="lazy"></div>
       <h3>毎日使えるさびねこの返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125061/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125061/ja" target="_blank" rel="noopener" data-s="さびねこの毎日使える敬語 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125061/LINEStorePC/main.png" alt="さびねこの毎日使える敬語" loading="lazy"></div>
       <h3>さびねこの毎日使える敬語</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125067/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125067/ja" target="_blank" rel="noopener" data-s="おせっかいねこの気づかい返事 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125067/LINEStorePC/main.png" alt="おせっかいねこの気づかい返事" loading="lazy"></div>
       <h3>おせっかいねこの気づかい返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125038/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125038/ja" target="_blank" rel="noopener" data-s="毎日使える口が悪いねこ 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125038/LINEStorePC/main.png" alt="毎日使える口が悪いねこ" loading="lazy"></div>
       <h3>毎日使える口が悪いねこ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125028/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125028/ja" target="_blank" rel="noopener" data-s="ポンコツねこのやらかし返信 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125028/LINEStorePC/main.png" alt="ポンコツねこのやらかし返信" loading="lazy"></div>
       <h3>ポンコツねこのやらかし返信</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125017/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125017/ja" target="_blank" rel="noopener" data-s="さみしがりねこの毎日返事 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125017/LINEStorePC/main.png" alt="さみしがりねこの毎日返事" loading="lazy"></div>
       <h3>さみしがりねこの毎日返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125007/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125007/ja" target="_blank" rel="noopener" data-s="根に持つねこの毎日 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125007/LINEStorePC/main.png" alt="根に持つねこの毎日" loading="lazy"></div>
       <h3>根に持つねこの毎日</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36061287/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36061287/ja" target="_blank" rel="noopener" data-s="無表情ねこの今どき語 🐈 ねこシリーズ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061287/LINEStorePC/main.png" alt="無表情ねこの今どき語" loading="lazy"></div>
       <h3>無表情ねこの今どき語</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="cat2"><h2>🗾 方言・ご当地</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36439630/ja" target="_blank" rel="noopener">
+<section id="cat2"><h2>🗾 方言・ご当地</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36439630/ja" target="_blank" rel="noopener" data-s="秋田弁のくま 🗾 方言・ご当地">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36439630/LINEStorePC/main.png" alt="秋田弁のくま" loading="lazy"></div>
       <h3>秋田弁のくま</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36413002/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36413002/ja" target="_blank" rel="noopener" data-s="博多弁のあまえんぼ明太子 🗾 方言・ご当地">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36413002/LINEStorePC/main.png" alt="博多弁のあまえんぼ明太子" loading="lazy"></div>
       <h3>博多弁のあまえんぼ明太子</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36205042/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36205042/ja" target="_blank" rel="noopener" data-s="まだまだ広島弁のもみじ饅頭 🗾 方言・ご当地">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205042/LINEStorePC/main.png" alt="まだまだ広島弁のもみじ饅頭" loading="lazy"></div>
       <h3>まだまだ広島弁のもみじ饅頭</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36061279/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36061279/ja" target="_blank" rel="noopener" data-s="京都どすこい 🗾 方言・ご当地">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061279/LINEStorePC/main.png" alt="京都どすこい" loading="lazy"></div>
       <h3>京都どすこい</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36124988/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36124988/ja" target="_blank" rel="noopener" data-s="毎日使える名古屋弁えびフライ 🗾 方言・ご当地">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36124988/LINEStorePC/main.png" alt="毎日使える名古屋弁えびフライ" loading="lazy"></div>
       <h3>毎日使える名古屋弁えびフライ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125014/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125014/ja" target="_blank" rel="noopener" data-s="広島弁もみじ饅頭の返事 広島弁でゆるっと返事するもみじ饅頭。地元トークのお供に 🗾 方言・ご当地">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125014/LINEStorePC/main.png" alt="広島弁もみじ饅頭の返事" loading="lazy"></div>
       <h3>広島弁もみじ饅頭の返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36125001/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36125001/ja" target="_blank" rel="noopener" data-s="浜言葉カモメのじゃん返事 🗾 方言・ご当地">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36125001/LINEStorePC/main.png" alt="浜言葉カモメのじゃん返事" loading="lazy"></div>
       <h3>浜言葉カモメのじゃん返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="cat3"><h2>🏐 スポーツ</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36474870/ja" target="_blank" rel="noopener">
+<section id="cat3"><h2>🏐 スポーツ</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36474870/ja" target="_blank" rel="noopener" data-s="バレーボールの応援リアクション 🏐 スポーツ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36474870/LINEStorePC/main.png" alt="バレーボールの応援リアクション" loading="lazy"></div>
       <h3>バレーボールの応援リアクション</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36257238/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36257238/ja" target="_blank" rel="noopener" data-s="動く黄色と青のバレーボール 🏐 スポーツ うごく">
       <div class="thumb"><span class="badge anim">うごく</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36257238/LINEStorePC/main.png" alt="動く黄色と青のバレーボール" loading="lazy"></div>
       <h3>動く黄色と青のバレーボール</h3>
       <div class="foot"><span class="price">¥250<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36259488/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36259488/ja" target="_blank" rel="noopener" data-s="バレーボールのおうち連絡 🏐 スポーツ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36259488/LINEStorePC/main.png" alt="バレーボールのおうち連絡" loading="lazy"></div>
       <h3>バレーボールのおうち連絡</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36259499/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36259499/ja" target="_blank" rel="noopener" data-s="ダジャレをうつバレーボール 🏐 スポーツ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36259499/LINEStorePC/main.png" alt="ダジャレをうつバレーボール" loading="lazy"></div>
       <h3>ダジャレをうつバレーボール</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36205048/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36205048/ja" target="_blank" rel="noopener" data-s="黄色と青のバレーボール部 🏐 スポーツ">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36205048/LINEStorePC/main.png" alt="黄色と青のバレーボール部" loading="lazy"></div>
       <h3>黄色と青のバレーボール部</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="cat4"><h2>🦦 カワウソ</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36061282/ja" target="_blank" rel="noopener">
+<section id="cat4"><h2>🦦 カワウソ</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36061282/ja" target="_blank" rel="noopener" data-s="ウソつくカワウソ バレバレのウソをつくカワウソ。ごまかしたい日の返事はこの子におまかせ 🦦 カワウソ">
       <div class="thumb"><span class="badge osusume">おすすめ</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061282/LINEStorePC/main.png" alt="ウソつくカワウソ" loading="lazy"></div>
       <h3>ウソつくカワウソ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/themeshop/product/31313692-dac1-4108-80be-46a93627374f/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/themeshop/product/31313692-dac1-4108-80be-46a93627374f/ja" target="_blank" rel="noopener" data-s="まいにちカワウソ（着せかえ） 🦦 カワウソ 着せかえ">
       <div class="thumb"><span class="badge kise">着せかえ</span><img src="https://shop.line-scdn.net/themeshop/v1/products/31/31/36/31313692-dac1-4108-80be-46a93627374f/1/WEBSTORE/icon_198x278.png" alt="まいにちカワウソ（着せかえ）" loading="lazy"></div>
       <h3>まいにちカワウソ（着せかえ）</h3>
       <div class="foot"><span class="price">¥370<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="cat5"><h2>🎵 声と音のなかまたち</h2><p class="note">ボイストレーナーが作った、声まわりのキャラたち</p><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36271407/ja" target="_blank" rel="noopener">
+<section id="cat5"><h2>🎵 声と音のなかまたち</h2><p class="note">ボイストレーナーが作った、声まわりのキャラたち</p><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36271407/ja" target="_blank" rel="noopener" data-s="声のケアするうるおいくじら 🎵 声と音のなかまたち">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36271407/LINEStorePC/main.png" alt="声のケアするうるおいくじら" loading="lazy"></div>
       <h3>声のケアするうるおいくじら</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36060001/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36060001/ja" target="_blank" rel="noopener" data-s="声タイプどうぶつのゆる返事 🎵 声と音のなかまたち">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36060001/LINEStorePC/main.png" alt="声タイプどうぶつのゆる返事" loading="lazy"></div>
       <h3>声タイプどうぶつのゆる返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36060072/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36060072/ja" target="_blank" rel="noopener" data-s="のど飴ズのいたわり返事 🎵 声と音のなかまたち">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36060072/LINEStorePC/main.png" alt="のど飴ズのいたわり返事" loading="lazy"></div>
       <h3>のど飴ズのいたわり返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36060076/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36060076/ja" target="_blank" rel="noopener" data-s="メトロノームのカチカチ返事 🎵 声と音のなかまたち">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36060076/LINEStorePC/main.png" alt="メトロノームのカチカチ返事" loading="lazy"></div>
       <h3>メトロノームのカチカチ返事</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36061265/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36061265/ja" target="_blank" rel="noopener" data-s="のびのびヘビの言いよどみ 🎵 声と音のなかまたち">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36061265/LINEStorePC/main.png" alt="のびのびヘビの言いよどみ" loading="lazy"></div>
       <h3>のびのびヘビの言いよどみ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
-<section id="cat6"><h2>🆕 そのほか</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36474026/ja" target="_blank" rel="noopener">
+<section id="cat6"><h2>🆕 そのほか</h2><div class="grid"><a class="card" href="https://store.line.me/stickershop/product/36474026/ja" target="_blank" rel="noopener" data-s="日めくりの煽り 🆕 そのほか">
       <div class="thumb"><span class="badge new">NEW</span><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36474026/LINEStorePC/main.png" alt="日めくりの煽り" loading="lazy"></div>
       <h3>日めくりの煽り</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36472991/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36472991/ja" target="_blank" rel="noopener" data-s="既読だけつける貝 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36472991/LINEStorePC/main.png" alt="既読だけつける貝" loading="lazy"></div>
       <h3>既読だけつける貝</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36472999/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36472999/ja" target="_blank" rel="noopener" data-s="おねがイルカ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36472999/LINEStorePC/main.png" alt="おねがイルカ" loading="lazy"></div>
       <h3>おねがイルカ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36472997/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36472997/ja" target="_blank" rel="noopener" data-s="ぜんぶ秋のせいにする栗 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36472997/LINEStorePC/main.png" alt="ぜんぶ秋のせいにする栗" loading="lazy"></div>
       <h3>ぜんぶ秋のせいにする栗</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36474031/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36474031/ja" target="_blank" rel="noopener" data-s="ただいマンボウ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36474031/LINEStorePC/main.png" alt="ただいマンボウ" loading="lazy"></div>
       <h3>ただいマンボウ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36474024/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36474024/ja" target="_blank" rel="noopener" data-s="圧が強いくじゃく 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36474024/LINEStorePC/main.png" alt="圧が強いくじゃく" loading="lazy"></div>
       <h3>圧が強いくじゃく</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36474016/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36474016/ja" target="_blank" rel="noopener" data-s="湯のみのダジャレ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36474016/LINEStorePC/main.png" alt="湯のみのダジャレ" loading="lazy"></div>
       <h3>湯のみのダジャレ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36439616/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36439616/ja" target="_blank" rel="noopener" data-s="敬語すぎるゴリラ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36439616/LINEStorePC/main.png" alt="敬語すぎるゴリラ" loading="lazy"></div>
       <h3>敬語すぎるゴリラ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36439649/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36439649/ja" target="_blank" rel="noopener" data-s="自販機の人生訓 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36439649/LINEStorePC/main.png" alt="自販機の人生訓" loading="lazy"></div>
       <h3>自販機の人生訓</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36439648/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36439648/ja" target="_blank" rel="noopener" data-s="毎晩つかえるおやすミミズク 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36439648/LINEStorePC/main.png" alt="毎晩つかえるおやすミミズク" loading="lazy"></div>
       <h3>毎晩つかえるおやすミミズク</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36413003/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36413003/ja" target="_blank" rel="noopener" data-s="敬語がこわれた犬 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36413003/LINEStorePC/main.png" alt="敬語がこわれた犬" loading="lazy"></div>
       <h3>敬語がこわれた犬</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36413014/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36413014/ja" target="_blank" rel="noopener" data-s="すみまセンザンコウ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36413014/LINEStorePC/main.png" alt="すみまセンザンコウ" loading="lazy"></div>
       <h3>すみまセンザンコウ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36395600/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36395600/ja" target="_blank" rel="noopener" data-s="毎日つかえるありがとウサギ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36395600/LINEStorePC/main.png" alt="毎日つかえるありがとウサギ" loading="lazy"></div>
       <h3>毎日つかえるありがとウサギ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36322119/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36322119/ja" target="_blank" rel="noopener" data-s="心配しすぎるひつじ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36322119/LINEStorePC/main.png" alt="心配しすぎるひつじ" loading="lazy"></div>
       <h3>心配しすぎるひつじ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36322117/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36322117/ja" target="_blank" rel="noopener" data-s="了解しまシカ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36322117/LINEStorePC/main.png" alt="了解しまシカ" loading="lazy"></div>
       <h3>了解しまシカ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36322130/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36322130/ja" target="_blank" rel="noopener" data-s="おめでとうを盛るクジャク 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36322130/LINEStorePC/main.png" alt="おめでとうを盛るクジャク" loading="lazy"></div>
       <h3>おめでとうを盛るクジャク</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36298557/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36298557/ja" target="_blank" rel="noopener" data-s="お月見うさぎの秋のあいさつ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36298557/LINEStorePC/main.png" alt="お月見うさぎの秋のあいさつ" loading="lazy"></div>
       <h3>お月見うさぎの秋のあいさつ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36298552/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36298552/ja" target="_blank" rel="noopener" data-s="いまでたナマケモノ 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36298552/LINEStorePC/main.png" alt="いまでたナマケモノ" loading="lazy"></div>
       <h3>いまでたナマケモノ</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36271418/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36271418/ja" target="_blank" rel="noopener" data-s="華麗なるカレーライス 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36271418/LINEStorePC/main.png" alt="華麗なるカレーライス" loading="lazy"></div>
       <h3>華麗なるカレーライス</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a>
-<a class="card" href="https://store.line.me/stickershop/product/36271417/ja" target="_blank" rel="noopener">
+<a class="card" href="https://store.line.me/stickershop/product/36271417/ja" target="_blank" rel="noopener" data-s="スパイスのきいた辛口カレー 🆕 そのほか">
       <div class="thumb"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/36271417/LINEStorePC/main.png" alt="スパイスのきいた辛口カレー" loading="lazy"></div>
       <h3>スパイスのきいた辛口カレー</h3>
       <div class="foot"><span class="price">¥190<small>〜</small></span><span class="btn">見てみる →</span></div>
     </a></div></section>
+<p class="noresult" id="noresult">見つかりませんでした。別の言葉でどうぞ 🐾</p>
 
 <footer>
 <p>新作はときどき増えます 🐾</p>
 <a class="author-btn" href="https://store.line.me/stickershop/author/301799/ja" target="_blank" rel="noopener">ぜんぶ見る</a>
 <p class="copy">© Experisent</p>
 </footer>
-</div></body></html>
+</div>
+<script>
+(function(){
+var q=document.getElementById('q'),qn=document.getElementById('qn'),qx=document.getElementById('qx'),box=document.getElementById('search');
+var nores=document.getElementById('noresult');
+var cards=[].slice.call(document.querySelectorAll('.card')),secs=[].slice.call(document.querySelectorAll('section'));
+function norm(t){return (t||'').toLowerCase().replace(/[\u30a1-\u30f6]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0x60)}).replace(/\s+/g,'')}
+function run(){
+  var w=norm(q.value);box.classList.toggle('on',!!w);
+  if(!w){cards.forEach(function(c){c.classList.remove('hide')});secs.forEach(function(s){s.classList.remove('hide')});qn.hidden=true;nores.classList.remove('on');return}
+  var seen={},n=0;
+  cards.forEach(function(c){var ok=norm(c.getAttribute('data-s')).indexOf(w)>-1;c.classList.toggle('hide',!ok);
+    if(ok){var id=c.querySelector('img')&&c.querySelector('img').getAttribute('src');if(!seen[id]){seen[id]=1;n++}}});
+  secs.forEach(function(s){s.classList.toggle('hide',!s.querySelector('.card:not(.hide)'))});
+  qn.textContent=n+'件';qn.hidden=false;nores.classList.toggle('on',n===0);
+}
+q.addEventListener('input',run);qx.addEventListener('click',function(){q.value='';run();q.focus()});
+})();
+</script></body></html>

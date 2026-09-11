@@ -23,6 +23,12 @@
    ・その下に従来どおりカテゴリ別の全作品一覧（こちらは通常グリッド）。
    ・未承認でおすすめ予定の作品は stamps-data.json の pending_recommended に控えてある
      （承認されて items に足すとき recommended を付ける）。
+
+⭐ 検索バーとランキング（2026-09-11 みかさん「検索バーつけましょう。あとランキングも！」）:
+   ・検索バー＝ヘッダー直下。作品名・ひとこと・カテゴリ名・バッジ（うごく/着せかえ）で絞る（JS・ページ内だけ）。
+   ・「🏆 売れてる順」＝おすすめの次に横1行・上位10。順位だけ出し、売上の数字は出さない。
+     元データ＝ ~/line-stickers/documents/sales_snapshot.csv（最新日の yen_cumulative>0 を並べる）。
+     CSVが読めるMacでは build のたびに ranking.json（id と順位だけ）を書き直し、読めないMacは ranking.json をそのまま使う。
 """
 
 from __future__ import annotations
@@ -36,6 +42,9 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent
 DATA = ROOT / "stamps-data.json"
 OUT = ROOT / "index.html"
+RANKING = ROOT / "ranking.json"
+SALES_CSV = pathlib.Path.home() / "line-stickers" / "documents" / "sales_snapshot.csv"
+RANK_TOP = 10
 
 STYLE = """*{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -109,6 +118,22 @@ h3{font-size:14px;font-weight:800;line-height:1.45;flex:1;overflow-wrap:anywhere
 .btn{background:var(--coral);color:#fff;font-size:12.5px;font-weight:800;
   padding:7px 13px;border-radius:99px;border:2px solid var(--line);white-space:nowrap}
 
+/* ---- 検索バー ---- */
+.search{position:relative;max-width:520px;margin:22px auto 0;display:flex;align-items:center;gap:10px;
+  background:#fff;border:3px solid var(--line);border-radius:99px;padding:6px 8px 6px 18px;box-shadow:4px 4px 0 var(--line)}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:700;color:var(--ink)}
+.search input::placeholder{color:#a39db0;font-weight:700}
+.search .qn{font-size:12.5px;font-weight:800;color:#fff;background:var(--line);border-radius:99px;padding:6px 12px;white-space:nowrap}
+.search .qx{border:0;background:var(--sun);color:var(--line);font-weight:800;font-size:14px;width:32px;height:32px;border-radius:99px;cursor:pointer;display:none}
+.search.on .qx{display:inline-block}
+.card.hide,section.hide{display:none}
+.noresult{display:none;margin-top:24px;text-align:center;font-weight:800;color:#6b6577}
+.noresult.on{display:block}
+
+/* ---- ランキング ---- */
+.badge.rank{left:7px;background:var(--line);color:var(--sun);transform:rotate(-7deg);font-size:12px}
+.badge.rank.r1{background:var(--sun);color:var(--line)}
+
 /* ---- フッター ---- */
 footer{text-align:center;margin-top:60px;padding:32px 16px;
   background:#fff;border:3px solid var(--line);border-radius:24px;box-shadow:6px 6px 0 var(--line)}
@@ -120,20 +145,44 @@ footer p{font-size:15px;font-weight:800}
 .copy{margin-top:20px;font-size:12px;font-weight:700;color:#8a8496}"""
 
 
+SEARCH_JS = r"""(function(){
+var q=document.getElementById('q'),qn=document.getElementById('qn'),qx=document.getElementById('qx'),box=document.getElementById('search');
+var nores=document.getElementById('noresult');
+var cards=[].slice.call(document.querySelectorAll('.card')),secs=[].slice.call(document.querySelectorAll('section'));
+function norm(t){return (t||'').toLowerCase().replace(/[\u30a1-\u30f6]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0x60)}).replace(/\s+/g,'')}
+function run(){
+  var w=norm(q.value);box.classList.toggle('on',!!w);
+  if(!w){cards.forEach(function(c){c.classList.remove('hide')});secs.forEach(function(s){s.classList.remove('hide')});qn.hidden=true;nores.classList.remove('on');return}
+  var seen={},n=0;
+  cards.forEach(function(c){var ok=norm(c.getAttribute('data-s')).indexOf(w)>-1;c.classList.toggle('hide',!ok);
+    if(ok){var id=c.querySelector('img')&&c.querySelector('img').getAttribute('src');if(!seen[id]){seen[id]=1;n++}}});
+  secs.forEach(function(s){s.classList.toggle('hide',!s.querySelector('.card:not(.hide)'))});
+  qn.textContent=n+'件';qn.hidden=false;nores.classList.toggle('on',n===0);
+}
+q.addEventListener('input',run);qx.addEventListener('click',function(){q.value='';run();q.focus()});
+})();"""
+
+
 def price_tag(item: dict) -> str:
     p = item.get("price")
     return f'<span class="price">¥{p}<small>〜</small></span>' if p else ""
 
 
-def card(item: dict, d: dict, with_desc: bool = False) -> str:
+def card(item: dict, d: dict, with_desc: bool = False, cat: str = "", rank: int = 0) -> str:
     title = html.escape(item["title"])
+    stext = " ".join(x for x in [item["title"], item.get("desc", ""), cat,
+                                  "うごく" if item.get("animated") else "",
+                                  "着せかえ" if item.get("kisekae") else ""] if x)
+    stext = html.escape(stext.replace("\n", " "))
     if item.get("kisekae"):
         url, img = item["theme_url"], item["img"]
     else:
         url = d["url_pattern"].replace("<id>", str(item["id"]))
         img = d["img_pattern"].replace("<id>", str(item["id"]))
     badges = ""
-    if item.get("recommended"):
+    if rank:
+        badges += f'<span class="badge rank r{rank}">{rank}位</span>'
+    elif item.get("recommended"):
         badges += '<span class="badge osusume">おすすめ</span>'
     elif item.get("new"):
         badges += '<span class="badge new">NEW</span>'
@@ -145,7 +194,7 @@ def card(item: dict, d: dict, with_desc: bool = False) -> str:
     if with_desc and item.get("desc"):
         desc = f'      <p class="desc">{html.escape(item["desc"])}</p>\n'
     return (
-        f'<a class="card" href="{url}" target="_blank" rel="noopener">\n'
+        f'<a class="card" href="{url}" target="_blank" rel="noopener" data-s="{stext}">\n'
         f'      <div class="thumb">{badges}<img src="{img}" alt="{title}" loading="lazy"></div>\n'
         f"      <h3>{title}</h3>\n" + desc +
         f'      <div class="foot">{price_tag(item)}<span class="btn">見てみる →</span></div>\n'
@@ -157,13 +206,37 @@ def slug(i: int) -> str:
     return f"cat{i}"
 
 
+def _norm_title(t: str) -> str:
+    return "".join(str(t or "").split()).replace("　", "")
+
+
+def load_ranking(cats: list) -> list:
+    """売れてる順の商品id（上位RANK_TOP）。CSVの sticker_id は管理画面の番号で、ページの id（LINE STOREの商品番号）とは別物
+    なので、作品名（空白を全部除いた形）で突き合わせる。CSVが読めればranking.jsonを書き直し、読めなければranking.jsonを使う。"""
+    by_title = {_norm_title(it["title"]): str(it["id"]) for c in cats for it in c["items"] if not it.get("kisekae")}
+    known = set(by_title.values())
+    ids: list = []
+    if SALES_CSV.exists():
+        import csv
+        rows = list(csv.DictReader(SALES_CSV.open(encoding="utf-8")))
+        if rows:
+            last = max(r["date"] for r in rows)
+            day = [r for r in rows if r["date"] == last and _norm_title(r.get("title")) in by_title]
+            day.sort(key=lambda r: (-int(r.get("yen_cumulative") or 0), r.get("release", "")))
+            ids = [by_title[_norm_title(r["title"])] for r in day if int(r.get("yen_cumulative") or 0) > 0][:RANK_TOP]
+            RANKING.write_text(json.dumps({"as_of": last, "ids": ids}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    if not ids and RANKING.exists():
+        ids = [str(x) for x in json.loads(RANKING.read_text(encoding="utf-8")).get("ids", []) if str(x) in known][:RANK_TOP]
+    return ids
+
+
 def build() -> str:
     d = json.loads(DATA.read_text(encoding="utf-8"))
     cats = d["categories"]
     total = sum(len(c["items"]) for c in cats)
     author = d["author_page"]
 
-    chips = '<a href="#osusume">⭐ おすすめ</a><a href="#shinsaku">🆕 NEW</a><a href="#ugoku">🏃 うごく</a>' + "".join(
+    chips = '<a href="#osusume">⭐ おすすめ</a><a href="#ranking">🏆 売れてる順</a><a href="#shinsaku">🆕 NEW</a><a href="#ugoku">🏃 うごく</a>' + "".join(
         f'<a href="#{slug(i)}">{html.escape(c["name"])}</a>' for i, c in enumerate(cats)
     )
     secs = []
@@ -174,6 +247,17 @@ def build() -> str:
         cards = "\n".join(card(it, d, with_desc=True) for it in reco)
         secs.append(
             '<section id="osusume"><h2>⭐ おすすめ</h2>'
+            f'<div class="row">{cards}</div></section>'
+        )
+
+    # 🏆 売れてる順（上位10・横1行・順位だけ）
+    rank_ids = load_ranking(cats)
+    by_id = {str(it["id"]): it for c in cats for it in c["items"] if not it.get("kisekae")}
+    ranked = [by_id[i] for i in rank_ids if i in by_id]
+    if ranked:
+        cards = "\n".join(card(it, d, rank=n + 1) for n, it in enumerate(ranked))
+        secs.append(
+            '<section id="ranking"><h2>🏆 売れてる順</h2>'
             f'<div class="row">{cards}</div></section>'
         )
 
@@ -196,7 +280,7 @@ def build() -> str:
         )
     for i, c in enumerate(cats):
         note = f'<p class="note">{html.escape(c["note"])}</p>' if c.get("note") else ""
-        cards = "\n".join(card(it, d) for it in c["items"])
+        cards = "\n".join(card(it, d, cat=c["name"]) for it in c["items"])
         secs.append(
             f'<section id="{slug(i)}"><h2>{html.escape(c["name"])}</h2>{note}'
             f'<div class="grid">{cards}</div></section>'
@@ -212,11 +296,16 @@ def build() -> str:
         f'<div class="count">ぜんぶで <b>{total}</b> 作品</div>\n'
         '<p class="lead">ねこも、方言も、言いにくいひとことも。</p>\n'
         f'<div class="chips">{chips}</div>\n'
-        "</header>\n" + "\n".join(secs) + "\n\n<footer>\n"
+        '<form class="search" id="search" role="search" onsubmit="return false">'
+        '<input id="q" type="search" placeholder="スタンプをさがす" autocomplete="off" aria-label="スタンプをさがす">'
+        '<span class="qn" id="qn" hidden></span><button type="button" class="qx" id="qx" aria-label="検索をクリア">×</button></form>\n'
+        "</header>\n" + "\n".join(secs) + "\n"
+        '<p class="noresult" id="noresult">見つかりませんでした。別の言葉でどうぞ 🐾</p>'
+        "\n\n<footer>\n"
         "<p>新作はときどき増えます 🐾</p>\n"
         f'<a class="author-btn" href="{author}" target="_blank" rel="noopener">ぜんぶ見る</a>\n'
         '<p class="copy">© Experisent</p>\n'
-        "</footer>\n</div></body></html>\n"
+        "</footer>\n</div>\n<script>\n" + SEARCH_JS + "\n</script></body></html>\n"
     )
 
 
