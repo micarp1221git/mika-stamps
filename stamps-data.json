@@ -12,6 +12,18 @@
       "name": "💬 ことば・英語",
       "items": [
         {
+          "title": "うごく！まるいやつのお返事",
+          "id": 36491617,
+          "new": true,
+          "price": 190
+        },
+        {
+          "title": "仕事で言えないマンガの言葉",
+          "id": 36498764,
+          "new": true,
+          "price": 190
+        },
+        {
           "title": "うごかないアザラシの返事",
           "id": 36413000,
           "price": 190
@@ -247,7 +259,6 @@
           "theme_url": "https://store.line.me/themeshop/product/f7572c05-c17c-4a2b-830b-f2063024f337/ja",
           "img": "https://shop.line-scdn.net/themeshop/v1/products/f7/57/2c/f7572c05-c17c-4a2b-830b-f2063024f337/1/WEBSTORE/icon_198x278.png",
           "kisekae": true,
-          "new": true,
           "price": 370
         }
       ]
@@ -275,6 +286,19 @@
       "name": "🎵 声と音のなかまたち",
       "note": "ボイストレーナーが作った、声まわりのキャラたち",
       "items": [
+        {
+          "title": "ぐぬぬちゃんの動くマンガ擬音",
+          "id": 36491616,
+          "new": true,
+          "price": 250,
+          "animated": true
+        },
+        {
+          "title": "マンガの効果音だけで会話する",
+          "id": 36498754,
+          "new": true,
+          "price": 190
+        },
         {
           "title": "声のケアするうるおいくじら",
           "id": 36271407,
@@ -306,9 +330,44 @@
       "name": "🆕 そのほか",
       "items": [
         {
+          "title": "ぐぬぬちゃんの全力よしよし",
+          "id": 36496922,
+          "new": true,
+          "price": 190
+        },
+        {
+          "title": "文字なしで伝わるクマ",
+          "id": 36498762,
+          "new": true,
+          "price": 190
+        },
+        {
+          "title": "まんまるお月見だんご",
+          "id": 36500899,
+          "new": true,
+          "price": 190
+        },
+        {
+          "title": "おどかすのが下手なおばけ",
+          "id": 36500916,
+          "new": true,
+          "price": 190
+        },
+        {
+          "title": "おかえリス",
+          "id": 36500906,
+          "new": true,
+          "price": 190
+        },
+        {
+          "title": "話を聞かないインコ",
+          "id": 36500955,
+          "new": true,
+          "price": 190
+        },
+        {
           "title": "日めくりの煽り",
           "id": 36474026,
-          "new": true,
           "price": 190
         },
         {
