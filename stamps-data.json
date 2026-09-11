@@ -241,6 +241,14 @@
           "title": "黄色と青のバレーボール部",
           "id": 36205048,
           "price": 190
+        },
+        {
+          "title": "まいにちバレーボール（着せかえ）",
+          "theme_url": "https://store.line.me/themeshop/product/f7572c05-c17c-4a2b-830b-f2063024f337/ja",
+          "img": "https://shop.line-scdn.net/themeshop/v1/products/f7/57/2c/f7572c05-c17c-4a2b-830b-f2063024f337/1/WEBSTORE/icon_198x278.png",
+          "kisekae": true,
+          "new": true,
+          "price": 370
         }
       ]
     },
