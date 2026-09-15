@@ -45,21 +45,21 @@ def log(msg: str) -> None:
         f.write(line + "\n")
 
 
+SAY = pathlib.Path.home() / "git/MIKA_VAULT/06_Projects/自律稼働/tools/discord-say.py"
+
+
 def notify(text: str) -> None:
-    """Discordのメイン部屋へ1行（intake.shと同じ経路）。失敗しても本体は止めない。"""
+    """Discordのメイン部屋へ1行。失敗しても本体は止めない。
+
+    🚨 2026-09-15 修正: 自分でBot APIを叩く形をやめて discord-say.py に寄せた。
+      旧実装は urllib で /api/v10/channels/... を直接叩いており、**403 Forbidden で落ち続けていた**
+      （9/13〜9/15の実測で毎回。そのあいだ「Creators Marketのログインが切れています」の警告が
+      1通もみかさんに届いていなかった）。
+    ⭐ 知らせ方は1つの道具に寄せる。**知らせる経路が壊れると、壊れたことも知らせられない。**
+    """
     try:
-        token = ""
-        for l in DISCORD_ENV.read_text(encoding="utf-8").splitlines():
-            if l.startswith("DISCORD_BOT_TOKEN="):
-                token = l.split("=", 1)[1].strip()
-        if not token:
-            return
-        req = urllib.request.Request(
-            f"https://discord.com/api/v10/channels/{MAIN_ROOM}/messages",
-            data=json.dumps({"content": text}).encode(),
-            headers={"Authorization": f"Bot {token}", "Content-Type": "application/json"},
-        )
-        urllib.request.urlopen(req, timeout=15)
+        subprocess.run(["/usr/bin/python3", str(SAY), MAIN_ROOM, "-"],
+                       input=text, text=True, timeout=60, check=False)
     except Exception as e:  # noqa: BLE001
         log(f"Discord通知に失敗(本体は続行): {e}")
 
