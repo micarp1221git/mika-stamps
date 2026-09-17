@@ -29,6 +29,8 @@ import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent
 DATA = ROOT / "stamps-data.json"
+# 2026-09-17みかさん「国違いのスタンプは、一覧ページには載せないようにしてほしい」
+SKIP_LIST = ROOT / "一覧に載せない.txt"
 LOG = ROOT / "auto_update.log"
 STICKERS = pathlib.Path.home() / "line-stickers"
 AUTH = STICKERS / ".auth" / "line-creators-storage-state.json"
@@ -136,6 +138,37 @@ def store_ids() -> dict[str, str]:
     return out
 
 
+# ── 一覧に載せないもの（国外向け）──────────────────────────
+# みかさん2026-09-17「国違いのスタンプは、一覧ページには載せないようにしてほしいです」
+# ⚠️ 黙って消さない。載せなかったものは必ずログとDiscordに出す（気づかないうちに消えるのが困る）。
+FOREIGN_SCRIPT = re.compile(r"[\u0E00-\u0E7F\uAC00-\uD7AF\u0400-\u04FF]")  # タイ文字・ハングル・キリル
+KANA = re.compile(r"[\u3040-\u309F\u30A0-\u30FF]")                          # ひらがな・カタカナ
+
+
+def skip_list() -> set:
+    """作品名を1行ずつ書いたテキスト（# から後ろはメモ）。無ければ空。"""
+    if not SKIP_LIST.exists():
+        return set()
+    out = set()
+    for line in SKIP_LIST.read_text(encoding="utf-8").splitlines():
+        line = line.split("#", 1)[0].strip()
+        if line:
+            out.add(norm(line))
+    return out
+
+
+def skip_reason(title: str, listed: set) -> str:
+    """載せない理由を返す。載せてよければ空文字。"""
+    if norm(title) in listed:
+        return "一覧に載せない.txt に書いてある"
+    if FOREIGN_SCRIPT.search(title):
+        return "作品名に日本語以外の文字が入っている（タイ文字・ハングル等）"
+    if not KANA.search(title):
+        # 繁体字中国語は漢字だけなので、かなが1文字も無いものは保留して聞く
+        return "かなが1文字も無い（繁体字などの国外向けかもしれないので保留）"
+    return ""
+
+
 CATEGORY_RULES = [
     ("🏐 スポーツ", r"バレー|サッカー|野球|テニス|スポーツ|部活"),
     ("🐈 ねこシリーズ", r"ねこ|ネコ|猫"),
@@ -166,6 +199,17 @@ def main() -> int:
     new_names = [n for n in names if n not in have]
     if not new_names:
         log(f"新作なし（販売中{len(names)}・掲載{len(have)}）")
+        return 0
+
+    listed = skip_list()
+    skipped = [(n, r) for n in new_names for r in [skip_reason(n, listed)] if r]
+    if skipped:
+        new_names = [n for n in new_names if n not in {x[0] for x in skipped}]
+        log("一覧に載せませんでした: " + "、".join(f"{n}（{r}）" for n, r in skipped))
+        notify("🌏 **一覧ページに載せなかった作品があります**（国違いは載せない設定）\n"
+               + "\n".join(f"・{n}\n　理由: {r}" for n, r in skipped)
+               + "\n\n載せたいものがあれば言ってください（`一覧に載せない.txt` から外します）")
+    if not new_names:
         return 0
 
     ids = store_ids()
