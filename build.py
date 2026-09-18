@@ -36,7 +36,8 @@
 
 ⭐ 検索バーとランキング（2026-09-11 みかさん「検索バーつけましょう。あとランキングも！」）:
    ・検索＝作品名・ひとこと・カテゴリ名・バッジ（うごく/着せかえ）で絞る（JS・ページ内だけ）。
-   ・「🏆 売れてる順」＝上位10。順位だけ出し、売上の数字は出さない。
+   ・「🏆 人気ランキング」（チップは「🏆 ランキング」）＝実売の上位10。順位だけ出し、売上の数字は出さない。
+     （2026-09-18みかさん: 「売れてる順」「買っていただいている」は言い方を変える→「人気」で統一）
      元データ＝ ~/line-stickers/documents/sales_snapshot.csv（最新日の yen_cumulative>0 を並べる）。
      CSVが読めるMacでは build のたびに ranking.json（id と順位だけ）を書き直し、読めないMacは ranking.json をそのまま使う。
 
@@ -318,7 +319,7 @@ def build() -> str:
     # ── チップ（件数つき）。順番＝ページの並びと同じ ──
     chips = [chip("all", "すべて", total, on=True)]
     if ranked:
-        chips.append(chip("ranking", "🏆 売れてる順", len(ranked)))
+        chips.append(chip("ranking", "🏆 ランキング", len(ranked)))
     if reco:
         chips.append(chip("osusume", "⭐ おすすめ", len(reco)))
     if news:
@@ -347,7 +348,7 @@ def build() -> str:
     # ── 🏆 売れてる順（上位10・横1行・順位だけ） ──
     if ranked:
         cards = "\n".join(card(it, d, rank=n + 1) for n, it in enumerate(ranked))
-        secs.append('<section id="ranking" data-only="1"><div class="sec-h"><h2>🏆 売れてる順<small>10</small></h2></div>'
+        secs.append('<section id="ranking" data-only="1"><div class="sec-h"><h2>🏆 人気ランキング<small>TOP10</small></h2></div>'
                     f'<div class="row">{cards}</div></section>')
 
     # ── ⭐ おすすめ（ちょうど5個・横1行） ──
