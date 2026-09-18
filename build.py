@@ -60,6 +60,7 @@ OUT = ROOT / "index.html"
 RANKING = ROOT / "ranking.json"
 SALES_CSV = pathlib.Path.home() / "line-stickers" / "documents" / "sales_snapshot.csv"
 RANK_TOP = 10
+FOLD_AT = 8   # カテゴリ節は最初の8件だけ見せ、残りは「すべて見る」で開く（後半がだれないように・2026-09-18みかさん）
 SITE_URL = "https://micarp1221git.github.io/mika-stamps/"
 HERO_CAT = "😤 ぐぬぬちゃん・マンガの言葉"
 
@@ -93,7 +94,10 @@ header h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;hei
 .bar.stuck{box-shadow:0 6px 16px rgba(42,40,51,.10)}
 .bar .in{max-width:1080px;margin:0 auto;padding:0 14px}
 .search{display:flex;align-items:center;gap:8px;max-width:560px;margin:0 auto;
-  background:#fff;border:2.5px solid var(--line);border-radius:99px;padding:4px 6px 4px 16px;box-shadow:3px 3px 0 var(--line)}
+  background:#fff;border:2px solid #d9d2c6;border-radius:12px;padding:4px 6px 4px 12px}
+.search:focus-within{border-color:var(--line)}
+.search::before{content:"";flex:none;width:18px;height:18px;opacity:.55;
+  background:no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2333323E' stroke-width='2.6' stroke-linecap='round'><circle cx='10.5' cy='10.5' r='6.5'/><path d='M15.5 15.5 21 21'/></svg>")}
 .search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;font-weight:700;color:var(--ink);height:36px}
 .search input::placeholder{color:#a39db0;font-weight:700}
 .search input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
@@ -113,10 +117,12 @@ header h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;hei
 /* ---- セクション ---- */
 section{margin-top:38px;scroll-margin-top:130px}
 .sec-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-h2{display:inline-block;font-size:clamp(18px,4vw,23px);font-weight:800;
-  background:#fff;border:3px solid var(--line);border-radius:99px;padding:6px 18px;
-  box-shadow:4px 4px 0 var(--line)}
-h2 small{font-size:13px;font-weight:800;color:var(--mute);margin-left:6px}
+h2{display:inline-block;position:relative;font-size:clamp(19px,4.4vw,24px);font-weight:800;padding:0 .1em;line-height:1.35}
+h2::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.36em;background:var(--sun);border-radius:99px;z-index:-1;opacity:.9}
+h2 small{font-size:13px;font-weight:800;color:var(--mute);margin-left:8px}
+.sec-h{margin-top:4px}
+section.cat.alt{background:#fff;border-radius:22px;padding:18px 14px 20px;margin-top:34px}
+section.cat.alt .thumb{background:var(--cream)}
 .note{margin-top:10px;font-size:13.5px;font-weight:700;color:var(--mute)}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
 @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);gap:16px}}
@@ -166,7 +172,13 @@ h3{font-size:13.5px;font-weight:800;line-height:1.45;flex:1;overflow-wrap:anywhe
 .go{display:none;font-size:12px;font-weight:800;color:var(--coral);white-space:nowrap}
 .card.big .go{display:inline}
 
-.card.hide,section.hide{display:none}
+.card.more{display:none}
+section.open .card.more,body.searching .card.more{display:flex}
+.morebtn{display:inline-flex;align-items:center;min-height:44px;margin-top:14px;padding:0 18px;background:#fff;border:2.5px solid var(--line);
+  border-radius:99px;font:inherit;font-size:14px;font-weight:800;color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 var(--line)}
+.morebtn:active{transform:translate(2px,2px);box-shadow:none}
+section.open .morebtn,body.searching .morebtn{display:none}
+.card.hide,section.hide{display:none!important}
 .noresult{display:none;margin-top:28px;text-align:center;font-weight:800;color:var(--mute)}
 .noresult.on{display:block}
 .totop{position:fixed;right:14px;bottom:18px;z-index:20;width:46px;height:46px;border-radius:99px;border:2.5px solid var(--line);
@@ -192,7 +204,7 @@ var cards=[].slice.call(document.querySelectorAll('.card')),secs=[].slice.call(d
 var cat='all';
 function norm(t){return (t||'').toLowerCase().replace(/[ァ-ヶ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0x60)}).replace(/\s+/g,'')}
 function run(){
-  var w=norm(q.value);box.classList.toggle('on',!!w);
+  var w=norm(q.value);box.classList.toggle('on',!!w);document.body.classList.toggle('searching',!!w);
   var seen={},n=0;
   secs.forEach(function(s){
     var show=(cat==='all')?!s.hasAttribute('data-only'):(s.id===cat);
@@ -204,10 +216,12 @@ function run(){
   qn.textContent=n+'件';qn.hidden=!(w||cat!=='all');nores.classList.toggle('on',n===0);
 }
 chips.forEach(function(ch){ch.addEventListener('click',function(){
-  cat=ch.getAttribute('data-cat');chips.forEach(function(x){x.classList.toggle('on',x===ch)});run();
+  cat=ch.getAttribute('data-cat');chips.forEach(function(x){x.classList.toggle('on',x===ch)});
+  var sec=document.getElementById(cat);if(sec)sec.classList.add('open');run();
   var y=bar.getBoundingClientRect().top;if(y<0){window.scrollTo({top:window.scrollY+y,behavior:'smooth'})}
   ch.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
 })});
+[].slice.call(document.querySelectorAll('.morebtn')).forEach(function(b){b.addEventListener('click',function(){var s=document.getElementById(b.getAttribute('data-open'));if(s)s.classList.add('open')})});
 q.addEventListener('input',run);qx.addEventListener('click',function(){q.value='';run();q.focus()});
 window.addEventListener('scroll',function(){var s=window.scrollY>240;bar.classList.toggle('stuck',window.scrollY>80);totop.classList.toggle('on',s)},{passive:true});
 totop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
@@ -219,7 +233,7 @@ def price_tag(item: dict) -> str:
     return f'<span class="price">¥{p}<small>〜</small></span>' if p else ""
 
 
-def card(item: dict, d: dict, with_desc: bool = False, cat: str = "", rank: int = 0, big: bool = False) -> str:
+def card(item: dict, d: dict, with_desc: bool = False, cat: str = "", rank: int = 0, big: bool = False, more: bool = False) -> str:
     title = html.escape(item["title"])
     stext = " ".join(x for x in [item["title"], item.get("desc", ""), cat,
                                   "うごく" if item.get("animated") else "",
@@ -245,7 +259,7 @@ def card(item: dict, d: dict, with_desc: bool = False, cat: str = "", rank: int 
     desc = ""
     if with_desc and item.get("desc"):
         desc = f'      <p class="desc">{html.escape(item["desc"])}</p>\n'
-    cls = "card big" if big else "card"
+    cls = "card big" if big else ("card more" if more else "card")
     return (
         f'<a class="{cls}" href="{url}" target="_blank" rel="noopener" data-s="{stext}">\n'
         f'      <div class="thumb">{badges}<img src="{img}" alt="{title}" loading="lazy"></div>\n'
@@ -355,14 +369,19 @@ def build() -> str:
                     f'<div class="row">{cards}</div></section>')
 
     # ── カテゴリ別の全作品（目玉カテゴリは上で出したので飛ばす） ──
+    alt_i = 0
     for i, c in enumerate(cats):
         if i == hero_idx:
             continue
         note = f'<p class="note">{html.escape(c["note"])}</p>' if c.get("note") else ""
-        cards = "\n".join(card(it, d, cat=c["name"]) for it in c["items"])
+        cards = "\n".join(card(it, d, cat=c["name"], more=(n >= FOLD_AT)) for n, it in enumerate(c["items"]))
+        rest = len(c["items"]) - FOLD_AT
+        morebtn = f'<button type="button" class="morebtn" data-open="{slug(i)}">すべて見る（あと{rest}件）</button>' if rest > 0 else ""
+        alt_i += 1
+        cls = "cat alt" if alt_i % 2 == 0 else "cat"
         secs.append(
-            f'<section id="{slug(i)}"><div class="sec-h"><h2>{html.escape(c["name"])}<small>{len(c["items"])}</small></h2></div>{note}'
-            f'<div class="grid">{cards}</div></section>'
+            f'<section id="{slug(i)}" class="{cls}"><div class="sec-h"><h2>{html.escape(c["name"])}<small>{len(c["items"])}</small></h2></div>{note}'
+            f'<div class="grid">{cards}</div>{morebtn}</section>'
         )
 
     og_img = d["img_pattern"].replace("<id>", str(first["id"])) if hero_idx is not None else ""
