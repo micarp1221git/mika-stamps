@@ -255,7 +255,8 @@ def main() -> int:
     subprocess.run(["git", "push", "-q"], check=True, cwd=ROOT)
     log(f"追加してpushしました: {added}")
     lines = "\n".join(f"・{a[0]}（{a[1]}）" for a in added)
-    notify(f"🎨 スタンプまとめページに新作を自動追加しました（販売開始を検知）:\n{lines}\nhttps://micarp1221git.github.io/mika-stamps/")
+    # 2026-09-19 みかさん「この通知も不要です」→ 成功の知らせはDiscordに出さない（ログにだけ残す）。ログイン切れ・載せなかった作品の知らせは残す
+    log(f"（Discord通知なし）新作を追加: {lines.replace(chr(10), ' / ')}")
     return 0
 
 
