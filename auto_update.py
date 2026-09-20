@@ -196,10 +196,15 @@ def main() -> int:
     have = {norm(i["title"]) for c in d["categories"] for i in c["items"]}
 
     names = selling_names()
-    if names is None:
+    if not names:  # None＝ログイン切れ／[]＝ログイン切れで一覧が空に見えている（9/20 10:17・15:17に「販売中0」で黙って通っていた）
         log("🚨 Creators Marketのログインが切れています。追加チェックできていません")
-        notify("🎨 スタンプ自動追加: LINE Creators Marketのログインが切れていて確認できませんでした。`~/line-stickers` のログインを1回お願いします")
-        return 1
+        # 同じ知らせは1日1回だけ（9/20 みかさん「なぜなおさないの？」＝直せない件を何度も知らせない）
+        stamp = Path(__file__).with_name(".login-expired-notified")
+        today = datetime.date.today().isoformat()
+        if not (stamp.exists() and stamp.read_text().strip() == today):
+            notify("🎨 スタンプ自動追加: LINE Creators Marketのログインが切れていて確認できませんでした。`~/line-stickers` のログインを1回お願いします（きょうはこの1回だけ知らせます）")
+            stamp.write_text(today)
+        return 0  # 知らせは自分で出したので、拾う役（終了コード見張り）には拾わせない
 
     new_names = [n for n in names if n not in have]
     if not new_names:
