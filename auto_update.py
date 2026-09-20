@@ -199,7 +199,7 @@ def main() -> int:
     if not names:  # None＝ログイン切れ／[]＝ログイン切れで一覧が空に見えている（9/20 10:17・15:17に「販売中0」で黙って通っていた）
         log("🚨 Creators Marketのログインが切れています。追加チェックできていません")
         # 同じ知らせは1日1回だけ（9/20 みかさん「なぜなおさないの？」＝直せない件を何度も知らせない）
-        stamp = Path(__file__).with_name(".login-expired-notified")
+        stamp = pathlib.Path(__file__).with_name(".login-expired-notified")
         today = datetime.date.today().isoformat()
         if not (stamp.exists() and stamp.read_text().strip() == today):
             notify("🎨 スタンプ自動追加: LINE Creators Marketのログインが切れていて確認できませんでした。`~/line-stickers` のログインを1回お願いします（きょうはこの1回だけ知らせます）")
