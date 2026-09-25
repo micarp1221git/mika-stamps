@@ -81,6 +81,7 @@ def selling_names() -> list[str] | None:
             env[k.strip()] = v.strip()
     mid = env["LINE_CREATOR_MYPAGE_ID"]
     names: list[str] = []
+    total_items = 0   # 9/25: ページに作品が1つでもあったか（審査待ちも数える）。0なら一覧が読めていない＝None
     with sync_playwright() as p:
         b = p.chromium.launch(headless=True)
         c = b.new_context(storage_state=str(AUTH), locale="ja-JP")
@@ -98,20 +99,24 @@ def selling_names() -> list[str] | None:
             head_end = body.rfind("リジェクト")
             tail = body[head_end + len("リジェクト"):] if head_end != -1 else body
             got = []
+            page_items = 0
             for chunk in tail.split("プレビュー"):
                 m = re.search(r"¥[\d,]+", chunk)
                 if not m:
                     continue
+                page_items += 1
                 name = re.sub(r"(編集|削除|P参加中\(.*?\))", "", norm(chunk[: m.start()]))
                 status_zone = chunk[m.end(): m.end() + 40]
                 if name and "販売中" in status_zone:
                     got.append(name)
-            fresh = [n for n in got if n not in names]
-            if not fresh:
+            total_items += page_items
+            # 9/25 10:17 の誤報の原因: 1ページ目の20件が全部「審査待ち」（朝10セット申請した直後）で「販売中」が0 → ここで break して
+            # 販売中0件＝ログイン切れ扱いになっていた。止めるのは「作品そのものが無いページ」に当たったときだけにする
+            if page_items == 0:
                 break
-            names.extend(fresh)
+            names.extend(n for n in got if n not in names)
         b.close()
-    return names
+    return names if total_items else None
 
 
 def store_ids() -> dict[str, str]:
