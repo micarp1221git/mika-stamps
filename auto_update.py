@@ -162,10 +162,37 @@ def skip_list() -> set:
     return out
 
 
+STICKER_CONFIGS = pathlib.Path("/Users/shinnomika/line-stickers/sticker")
+
+
+def overseas_titles() -> set:
+    """制作側の config.json で language が日本語以外（th / zh-Hant 等）のセットの作品名。
+    2026-09-25 みかさん「海外スタンプは一覧ページに載せない」＋毎日3セットが海外向けになったので、
+    一覧に載せない.txt への書き足し忘れに頼らず、制作側の印で弾く。"""
+    out = set()
+    for cfg in STICKER_CONFIGS.glob("*/config.json"):
+        try:
+            d = json.loads(cfg.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if str(d.get("language") or "ja") == "ja":
+            continue
+        for t in (d.get("title") or {}).values():
+            if t:
+                out.add(norm(str(t)))
+        for c in d.get("title_candidates") or []:
+            for t in c.values():
+                if t:
+                    out.add(norm(str(t)))
+    return out
+
+
 def skip_reason(title: str, listed: set) -> str:
     """載せない理由を返す。載せてよければ空文字。"""
     if norm(title) in listed:
         return "一覧に載せない.txt に書いてある"
+    if norm(title) in overseas_titles():
+        return "海外向けセット（制作側の config.json の language が日本語以外）"
     if FOREIGN_SCRIPT.search(title):
         return "作品名に日本語以外の文字が入っている（タイ文字・ハングル等）"
     if not KANA.search(title):
