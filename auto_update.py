@@ -26,6 +26,8 @@ import re
 import subprocess
 import sys
 import urllib.request
+sys.path.insert(0, "/Users/shinnomika/line-stickers/scripts")
+from login_status import record  # noqa: E402  ログイン状態は documents/ログイン状態.txt の1か所（2026-10-04）
 
 ROOT = pathlib.Path(__file__).resolve().parent
 DATA = ROOT / "stamps-data.json"
@@ -95,7 +97,9 @@ def selling_names() -> list[str] | None:
             body = pg.inner_text("body")
             if "line.me/oauth" in pg.url or "/login" in pg.url or "ログアウト" not in body:
                 b.close()
+                record(False, "auto_update.py（一覧ページの自動追加）")
                 return None
+            record(True, "auto_update.py（一覧ページの自動追加）")
             head_end = body.rfind("リジェクト")
             tail = body[head_end + len("リジェクト"):] if head_end != -1 else body
             got = []
