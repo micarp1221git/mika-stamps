@@ -38,6 +38,7 @@ STICKERS = pathlib.Path.home() / "line-stickers"
 AUTH = STICKERS / ".auth" / "line-creators-storage-state.json"
 DISCORD_ENV = pathlib.Path.home() / ".claude" / "channels" / "discord" / ".env"
 MAIN_ROOM = "1522158006626680923"
+LOG_ROOM = "1556299224449028096"  # #記録: 対応の要らない知らせ（2026-10-14 みかさん「対応要らない系は#記録部屋に」）
 
 sys.path.insert(0, str(STICKERS / "scripts"))
 
@@ -52,7 +53,7 @@ def log(msg: str) -> None:
 SAY = pathlib.Path.home() / "git/MIKA_VAULT/06_Projects/自律稼働/tools/discord-say.py"
 
 
-def notify(text: str) -> None:
+def notify(text: str, room: str = MAIN_ROOM) -> None:
     """Discordのメイン部屋へ1行。失敗しても本体は止めない。
 
     🚨 2026-09-15 修正: 自分でBot APIを叩く形をやめて discord-say.py に寄せた。
@@ -62,7 +63,7 @@ def notify(text: str) -> None:
     ⭐ 知らせ方は1つの道具に寄せる。**知らせる経路が壊れると、壊れたことも知らせられない。**
     """
     try:
-        subprocess.run(["/usr/bin/python3", str(SAY), MAIN_ROOM, "-"],
+        subprocess.run(["/usr/bin/python3", str(SAY), room, "-"],
                        input=text, text=True, timeout=60, check=False)
     except Exception as e:  # noqa: BLE001
         log(f"Discord通知に失敗(本体は続行): {e}")
@@ -252,9 +253,15 @@ def main() -> int:
     if skipped:
         new_names = [n for n in new_names if n not in {x[0] for x in skipped}]
         log("一覧に載せませんでした: " + "、".join(f"{n}（{r}）" for n, r in skipped))
-        notify("🌏 **一覧ページに載せなかった作品があります**（国違いは載せない設定）\n"
-               + "\n".join(f"・{n}\n　理由: {r}" for n, r in skipped)
-               + "\n\n載せたいものがあれば言ってください（`一覧に載せない.txt` から外します）")
+        # 対応の要らない知らせなので #記録 へ。同じ作品は1回だけ（10/13は同じ7件を1日2回出していた）
+        seen_f = pathlib.Path(__file__).with_name(".skip-notified")
+        seen = set(seen_f.read_text(encoding="utf-8").splitlines()) if seen_f.exists() else set()
+        fresh = [(n, r) for n, r in skipped if n not in seen]
+        if fresh:
+            notify("🌏 一覧ページに載せなかった作品があります（国違いは載せない設定）\n"
+                   + "\n".join(f"・{n}\n　理由: {r}" for n, r in fresh)
+                   + "\n\n載せたいものがあれば言ってください（`一覧に載せない.txt` から外します）", LOG_ROOM)
+            seen_f.write_text("\n".join(sorted(seen | {n for n, _ in fresh})) + "\n", encoding="utf-8")
     if not new_names:
         return 0
 
